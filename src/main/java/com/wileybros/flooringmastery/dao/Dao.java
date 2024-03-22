@@ -12,6 +12,7 @@ public interface Dao {
     boolean exportData();
 
     Set<Order> getOrdersOnDate(LocalDate date);
+    boolean distinctID(String id);
     boolean addOrder(Order order);
     boolean updateOrder(Order order);
     boolean removeOrder(String id);
