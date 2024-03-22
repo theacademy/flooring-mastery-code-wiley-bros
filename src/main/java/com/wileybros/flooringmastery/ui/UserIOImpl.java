@@ -4,9 +4,12 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Scanner;
 
 @Component
 public class UserIOImpl implements UserIO {
+
+    final private Scanner scanner = new Scanner(System.in);
 
     @Override
     public void print(String string, Object... args) {
@@ -20,21 +23,22 @@ public class UserIOImpl implements UserIO {
 
     @Override
     public String readString(String prompt) {
-        return null;
+        print(prompt);
+        return scanner.nextLine();
     }
 
     @Override
     public Integer readInt(String prompt) {
-        return null;
+        return Integer.parseInt(readString(prompt));
     }
 
     @Override
     public BigDecimal readBigDecimal(String prompt) {
-        return null;
+        return new BigDecimal(readString(prompt));
     }
 
     @Override
     public LocalDate readLocalDate(String prompt) {
-        return null;
+        return LocalDate.parse(readString(prompt));
     }
 }
