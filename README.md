@@ -6,7 +6,7 @@
 
 ### Flow Diagram
 
-We designed our flow diagram using Miro which can be found at [Miro Flow Diagram](https://miro.com/app/board/uXjVKdJFLpc=/?share_link_id=684974044541)
+We designed our flow diagram using Miro which can be found at [Miro Flow Diagram](https://miro.com/app/board/uXjVKdJFLpc=/?share_link_id=684974044541).
 
  ### Class Diagram
 
