@@ -14,8 +14,8 @@ We designed our class diagram using ExcaliDraw which can be found at [ExcaliDraw
 com/#json=vyT1uCMSrgt9hMVlYNdTW,083HhaVwcXHOKJo7sw0gUA) and has been exported below.
 
  <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Mackachoo/Wiley-Flooring-Mastery/blob/main/assets/Class%20Diagram%20Dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/Mackachoo/Wiley-Flooring-Mastery/blob/main/assets/Class%20Diagram.svg">
-  <img alt="Class Diagram" src="https://github.com/Mackachoo/Wiley-Flooring-Mastery/blob/main/assets/Class%20Diagram%20Dark.svg" height="500">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Mackachoo/Wiley-Flooring-Mastery/blob/main/assets/Class%20Diagram%20Dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/Mackachoo/Wiley-Flooring-Mastery/blob/main/assets/Class%20Diagram.png">
+  <img alt="Class Diagram" src="https://github.com/Mackachoo/Wiley-Flooring-Mastery/blob/main/assets/Class%20Diagram%20Dark.png" height="500">
 </picture>
 
