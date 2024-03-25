@@ -68,9 +68,9 @@ public class Controller {
     private void addOrder() {
         Object[] args = view.askOrderArgs();
         if (service.addOrder(args)) {
-            view.displaySuccess("Order added");
+            view.displaySuccess();
         } else {
-            view.displayFailiure("Order added");
+            view.displayFailure();
         }
     }
 
@@ -78,18 +78,18 @@ public class Controller {
         Integer id = view.askOrderID();
         Object[] args = view.askOrderArgs();
         if (service.updateOrder(id, args)) {
-            view.displaySuccess("Order edited");
+            view.displaySuccess();
         } else {
-            view.displayFailiure("Order not edited");
+            view.displayFailure();
         }
     }
 
     private void removeAnOrder() {
         Integer id = view.askOrderID();
         if (service.removeOrder(id)) {
-            view.displaySuccess("Order removed");
+            view.displaySuccess();
         } else {
-            view.displayFailiure("Order not removed");
+            view.displayFailure();
         }
     }
 
