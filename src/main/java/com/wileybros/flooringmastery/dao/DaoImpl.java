@@ -127,10 +127,10 @@ public class DaoImpl implements Dao {
     }
 
     @Override
-    public boolean writeData(Order order) {
+    public boolean writeData(String id) {
 
         try {
-        // TODO One file for corret date
+            // TODO One file for corret date
             PrintWriter out = new PrintWriter(new FileWriter(dataSource+"/Orders/Orders_" +
                                     order.getDate().format(dateFormat) + ".txt"));
 
