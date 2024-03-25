@@ -5,6 +5,7 @@ import com.wileybros.flooringmastery.dto.Order;
 import com.wileybros.flooringmastery.dto.Product;
 import com.wileybros.flooringmastery.dto.State;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -26,7 +27,7 @@ public class ServiceImpl implements Service{
     }
 
     @Override
-    public boolean addOrder(Integer id, Object[] args) {
+    public boolean addOrder(Object[] args, LocalDate futureDate) {
         String customerName = args[0].toString();
         String stateAbr = args[1].toString();
         String productType = args[2].toString();
@@ -34,7 +35,7 @@ public class ServiceImpl implements Service{
         State state = dao.getState(stateAbr);
         Product product = dao.getProduct(productType);
 
-        Order newOrder = new Order(id, customerName, state, product, area, null);
+        Order newOrder = new Order(dao.getNextID(), customerName, state, product, area, futureDate);
         return dao.addOrder(newOrder);
     }
 
