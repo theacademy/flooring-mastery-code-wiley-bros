@@ -15,12 +15,12 @@ public class Order {
     private BigDecimal area;
     private LocalDate date;
 
-    public Order(Integer id, String customerName, String stateAbr, String productType, BigDecimal area,
-                 LocalDate date, Dao dao) {
+    public Order(Integer id, String customerName, State state, Product product, BigDecimal area,
+                 LocalDate date) {
         this.id = id;
         this.customerName = customerName;
-        this.state = dao.getState(stateAbr);
-        this.product = dao.getProduct(productType);
+        this.state = state;
+        this.product = product;
         this.area = area;
         this.date = date;
     }
