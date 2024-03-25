@@ -12,8 +12,6 @@ public class Controller {
             System.out.println("WIP");
 
         }
-<<<<<<< Updated upstream
-=======
         view.displayExit();
     }
 
@@ -59,6 +57,5 @@ public class Controller {
 
     private void exportAllData() {
         view.displayFailure("Not Implemented yet");
->>>>>>> Stashed changes
     }
 }
