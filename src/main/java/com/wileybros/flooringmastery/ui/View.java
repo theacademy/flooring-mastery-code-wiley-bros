@@ -4,8 +4,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class View {
-<<<<<<< Updated upstream
-=======
 
     private UserIO io = new UserIOImpl();
 
@@ -78,5 +76,4 @@ public class View {
             displayOrder(order);
         }
     }
->>>>>>> Stashed changes
 }
