@@ -70,7 +70,7 @@ public class Controller {
         if (service.addOrder(args)) {
             view.displaySuccess();
         } else {
-            view.displayFailiure();
+            view.displayFailure();
         }
     }
 
@@ -80,7 +80,7 @@ public class Controller {
         if (service.updateOrder(id, args)) {
             view.displaySuccess();
         } else {
-            view.displayFailiure();
+            view.displayFailure();
         }
     }
 
@@ -89,11 +89,11 @@ public class Controller {
         if (service.removeOrder(id)) {
             view.displaySuccess();
         } else {
-            view.displayFailiure();
+            view.displayFailure();
         }
     }
 
     private void exportAllData() {
-        view.displayFailiure("Not Implemented yet");
+        view.displayFailure("Not Implemented yet");
     }
 }

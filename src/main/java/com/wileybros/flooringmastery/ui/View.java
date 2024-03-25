@@ -1,8 +1,10 @@
 package com.wileybros.flooringmastery.ui;
 
+import com.wileybros.flooringmastery.dto.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Component
 public class View {
@@ -56,7 +58,29 @@ public class View {
         return date;
     }
 
-    
+    public int askOrderID(){
+        return io.readInt("Enter Order Number: ");
+    }
+
+    public Object[] askOrderArgs(){
+        Object[] objs = new Object[4];
+        objs[0] = io.readString("Enter the customer name: ");
+        objs[1] = io.readString("Enter the state abbreviation: ");
+        objs[2] = io.readString("Enter the product type: ");
+        objs[3] = io.readBigDecimal("Enter the area: ");
+        return objs;
+    }
+
+    public void displayOrder(Order order){
+        io.printLn(order.toString());
+    }
+
+    public void displayOrders(Set<Order> orders){
+        for (Order order : orders){
+            io.printLn(order.toString());
+        }
+    }
+
 
 
 
