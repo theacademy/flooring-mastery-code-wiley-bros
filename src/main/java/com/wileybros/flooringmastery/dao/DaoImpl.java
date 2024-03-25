@@ -127,6 +127,30 @@ public class DaoImpl implements Dao {
     }
 
     @Override
+    public boolean writeData(Order order) {
+
+        try {
+        // TODO One file for corret date
+            PrintWriter out = new PrintWriter(new FileWriter(dataSource+"/Orders/Orders_" +
+                                    order.getDate().format(dateFormat) + ".txt"));
+
+                out.println(order);
+                out.flush();
+                for (Order o :
+                        orders.values().stream().filter(x -> x.getDate() == order.getDate()).collect(Collectors.toList())) {
+                    out.println(o);
+                    out.flush();
+                }
+                out.close();
+
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
+
+
+    @Override
     public boolean exportData() {
         return false;
     }
@@ -161,7 +185,7 @@ public class DaoImpl implements Dao {
         }
         return true;
     }
-    
+
 
     @Override
     public boolean updateOrder(Order order) {
