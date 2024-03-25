@@ -12,5 +12,5 @@ public class App {
 
         Controller controller = appContext.getBean("controller", Controller.class);
         controller.run();
-    }
+    } // test
 }
