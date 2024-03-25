@@ -6,10 +6,16 @@ import com.wileybros.flooringmastery.dto.State;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Component
 public class DaoImpl implements Dao {
+    Map<State, State> states = new HashMap<>();
+    Map<Product, Product> products = new HashMap<>();
+    Map<Order, Order> orders = new HashMap<>();
+
     @Override
     public boolean readData() {
         return false;
