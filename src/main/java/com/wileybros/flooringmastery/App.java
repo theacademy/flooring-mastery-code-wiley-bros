@@ -18,9 +18,7 @@ public class App {
 //        controller.run();
         Dao dao = new DaoImpl();
         dao.readData();
-//        System.out.println(dao.getOrdersOnDate(LocalDate.parse("2013-06-03")));
-        int a = 3;
-        System.out.println(++a);
-//        System.out.println(++a);
+        System.out.println(dao.getOrdersOnDate(LocalDate.parse("2013-06-02")));
+
     }
 }
