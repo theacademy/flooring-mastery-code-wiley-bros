@@ -13,13 +13,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
+// TODO FIX Hashcode for Maps
 @Component
 public class DaoImpl implements Dao {
-    Map<State, State> states;
-    Map<Product, Product> products;
-    Map<Order, Order> orders;
+    private Map<State, State> states;
+    private Map<Product, Product> products;
+    private Map<Order, Order> orders;
     final private String dataSource = "data";
     final private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MMddyyyy");
+    private Integer lastMaxID = 0;
 
     @Override
     public boolean readData() {
@@ -42,17 +45,20 @@ public class DaoImpl implements Dao {
                             new BufferedReader(
                                     new FileReader(file)));
 
-                    LocalDate date = LocalDate.parse(file.getName().replace("[A-z._]*", ""),
+                    String dateString = file.getName().substring(7, 15);
+                    LocalDate date = LocalDate.parse(dateString,
                             dateFormat);
+                    scanner.nextLine();
                     while (scanner.hasNextLine()) {
                         String[] args = scanner.nextLine().split(",");
                         Order temp = new Order(
                                 Integer.parseInt(args[0]),      // OrderNumber
                                 args[1],                        // CustomerName
-                                states.get(args[2]),            // State
-                                products.get(args[4]),          // ProductType
+                                states.get(new State(args[2])),            // State
+                                products.get(new Product(args[4])),          // ProductType
                                 new BigDecimal(args[5]),        // Area
                                 date);                          // Date in Filename
+                        if (temp.getId() > lastMaxID) lastMaxID = temp.getId();
                         orders.put(temp, temp);
                     }
 
@@ -73,6 +79,7 @@ public class DaoImpl implements Dao {
                             new FileReader(dataSource + "/States.txt")));
 
             states = new HashMap<>();
+            scanner.nextLine();
             while (scanner.hasNextLine()) {
                 State temp = State.parseState(scanner.nextLine());
                 states.put(temp, temp);
@@ -91,6 +98,7 @@ public class DaoImpl implements Dao {
                             new FileReader(dataSource + "/Products.txt")));
 
             products = new HashMap<>();
+            scanner.nextLine();
             while (scanner.hasNextLine()) {
                 Product temp = Product.parseProduct(scanner.nextLine());
                 products.put(temp, temp);
@@ -143,12 +151,12 @@ public class DaoImpl implements Dao {
 
     @Override
     public Set<Order> getOrdersOnDate(LocalDate date) {
-        return null;
+        return orders.keySet().stream().filter(o -> o.getDate().equals(date)).collect(Collectors.toSet());
     }
 
     @Override
-    public boolean distinctID(String id) {
-        return false;
+    public Integer getNextID() {
+        return ++lastMaxID;
     }
 
     @Override
@@ -164,12 +172,21 @@ public class DaoImpl implements Dao {
     
 
     @Override
-    public boolean updateOrder(Order order) {
-        return false;
+    public boolean updateOrder(Order newO) {
+        Order order = orders.get(newO);
+        try {
+            if (newO.getCustomerName() != null) order.setCustomerName(newO.getCustomerName());
+            if (newO.getState() != null) order.setState(newO.getState());
+            if (newO.getProduct() != null) order.setProduct(newO.getProduct());
+            if (newO.getArea() != null) order.setArea(newO.getArea());
+        } catch (NullPointerException e) {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public boolean removeOrder(String id) {
+    public boolean removeOrder(Integer id) {
         try {
             orders.remove(id);
             writeData();

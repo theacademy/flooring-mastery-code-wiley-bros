@@ -5,6 +5,7 @@ import com.wileybros.flooringmastery.dto.Product;
 import com.wileybros.flooringmastery.dto.State;
 
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.Set;
 
 public interface Dao {
@@ -17,9 +18,9 @@ public interface Dao {
     Product getProduct(String type);
 
     Set<Order> getOrdersOnDate(LocalDate date);
-    boolean distinctID(String id);
+    Integer getNextID();
     boolean addOrder(Order order);
     boolean updateOrder(Order order);
-    boolean removeOrder(String id);
+    boolean removeOrder(Integer id);
 
 }
