@@ -1,58 +1,98 @@
 package com.wileybros.flooringmastery.controller;
 
+import com.wileybros.flooringmastery.dto.Order;
+import com.wileybros.flooringmastery.service.Service;
 import com.wileybros.flooringmastery.ui.UserIO;
 import com.wileybros.flooringmastery.ui.UserIOImpl;
 import com.wileybros.flooringmastery.ui.View;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.util.Set;
+
 @Component
 public class Controller {
-    View view;
-    Service service;
+    private final View view;
+    private final Service service;
 
     public Controller(View view, Service service) {
         this.view = view;
         this.service = service;
     }
 
-    private UserIO io = new UserIOImpl();
-    private View view = new View();
-
     public void run() {
-        boolean keepGoing = true;
+        boolean running = true;
         int menuSelection = 0;
-        while (keepGoing) {
+        while (running) {
 
             menuSelection = getMenuSelection();
 
             switch (menuSelection) {
                 case 1:
-                    io.printLn("DISPLAY ORDERS");
+                    displayDateSpecificOrders();
                     break;
                 case 2:
-                    io.printLn("ADD AN ORDER");
+                    addOrder();
                     break;
                 case 3:
-                    io.printLn("EDIT AN ORDER");
+                    editAnOrder();
                     break;
                 case 4:
-                    io.printLn("REMOVE AN ORDER");
+                    removeAnOrder();
                     break;
                 case 5:
-                    io.printLn("EXPORT ALL DATA");
+                    exportAllData();
                     break;
                 case 6:
-                    keepGoing = false;
+                    running = false;
                     break;
                 default:
-                    io.printLn("UNKNOWN COMMAND");
+                    view.displayError("Input invalid command.");
             }
 
         }
-        io.printLn("GOOD BYE");
+        view.displayExit();
     }
 
     private int getMenuSelection() {
         return view.displayMenu();
+    }
+
+    private void displayDateSpecificOrders() {
+        LocalDate date = view.askDate();
+        Set<Order> orders = service.getOrdersOnData(date);
+        view.displayOrders(orders);
+    }
+
+    private void addOrder() {
+        Object[] args = view.askOrderArgs();
+        if (service.addOrder(args)) {
+            view.displaySuccess();
+        } else {
+            view.displayFailiure();
+        }
+    }
+
+    private void editAnOrder() {
+        Integer id = view.askOrderID();
+        Object[] args = view.askOrderArgs();
+        if (service.updateOrder(id, args)) {
+            view.displaySuccess();
+        } else {
+            view.displayFailiure();
+        }
+    }
+
+    private void removeAnOrder() {
+        Integer id = view.askOrderID();
+        if (service.removeOrder(id)) {
+            view.displaySuccess();
+        } else {
+            view.displayFailiure();
+        }
+    }
+
+    private void exportAllData() {
+        view.displayFailiure("Not Implemented yet");
     }
 }
