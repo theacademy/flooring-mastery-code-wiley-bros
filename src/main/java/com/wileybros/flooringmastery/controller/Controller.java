@@ -42,10 +42,11 @@ public class Controller {
             }
 
         }
-        io.printLn("GOOD BYE");
+        view.displayExit();
     }
 
     private int getMenuSelection() {
+        view.welcomeBanner();
         return view.displayMenu();
     }
 }
