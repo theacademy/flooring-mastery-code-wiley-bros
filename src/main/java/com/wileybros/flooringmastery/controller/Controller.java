@@ -55,6 +55,7 @@ public class Controller {
     }
 
     private int getMenuSelection() {
+        view.welcomeBanner();
         return view.displayMenu();
     }
 
