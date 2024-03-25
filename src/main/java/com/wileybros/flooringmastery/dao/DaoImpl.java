@@ -29,8 +29,7 @@ public class DaoImpl implements Dao {
 
     private boolean readOrderData() {
         try {                   // Tries to get Orders
-            String directoryPath = dataSource + "/Orders";
-            File directory = new File(directoryPath);
+            File directory = new File(dataSource + "/Orders");
 
             Scanner scanner;
             orders = new HashMap<>();
@@ -107,8 +106,10 @@ public class DaoImpl implements Dao {
 
     @Override
     public boolean writeData() {
-        // TODO Delete existing files
+        // This mess deletes all the files in the folder <datasource>/Orders
+        Arrays.stream(Objects.requireNonNull(new File(dataSource + "/Orders").listFiles())).map(File::delete);
 
+        // Repopulates the folder with data from memory
         try {
             Map<LocalDate, PrintWriter> outs = new HashMap<>();
             for (Order order : orders.values()) {
