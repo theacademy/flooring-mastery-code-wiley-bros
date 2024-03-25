@@ -68,7 +68,7 @@ public class Controller {
         if (service.addOrder(args)) {
             view.displaySuccess("Order added");
         } else {
-            view.displayFailiure("Order added");
+            view.displayFailure("Order added");
         }
     }
 
@@ -78,7 +78,7 @@ public class Controller {
         if (service.updateOrder(id, args)) {
             view.displaySuccess("Order edited");
         } else {
-            view.displayFailiure("Order not edited");
+            view.displayFailure("Order not edited");
         }
     }
 
@@ -87,7 +87,7 @@ public class Controller {
         if (service.removeOrder(id)) {
             view.displaySuccess("Order removed");
         } else {
-            view.displayFailiure("Order not removed");
+            view.displayFailure("Order not removed");
         }
     }
 
