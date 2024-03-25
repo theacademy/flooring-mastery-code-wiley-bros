@@ -6,14 +6,12 @@ import com.wileybros.flooringmastery.dto.State;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class DaoImpl implements Dao {
@@ -21,6 +19,7 @@ public class DaoImpl implements Dao {
     Map<Product, Product> products;
     Map<Order, Order> orders;
     final private String dataSource = "data";
+    final private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MMddyyyy");
 
     @Override
     public boolean readData() {
@@ -44,13 +43,16 @@ public class DaoImpl implements Dao {
                                     new FileReader(file)));
 
                     LocalDate date = LocalDate.parse(file.getName().replace("[A-z._]*", ""),
-                            DateTimeFormatter.ofPattern("MMddyyyy"));
+                            dateFormat);
                     while (scanner.hasNextLine()) {
                         String[] args = scanner.nextLine().split(",");
-                        //                          orderNumber    -    customerName   -   State
-                        Order temp = new Order(Integer.parseInt(args[0]), args[1], states.get(args[2]),
-                        //             productType     -     area       -       date
-                                products.get(args[4]),new BigDecimal(args[5]), date);
+                        Order temp = new Order(
+                                Integer.parseInt(args[0]),      // OrderNumber
+                                args[1],                        // CustomerName
+                                states.get(args[2]),            // State
+                                products.get(args[4]),          // ProductType
+                                new BigDecimal(args[5]),        // Area
+                                date);                          // Date in Filename
                         orders.put(temp, temp);
                     }
 
@@ -101,7 +103,27 @@ public class DaoImpl implements Dao {
 
     @Override
     public boolean writeData() {
-        return false;
+        // TODO Delete existing files
+
+        try {
+            Map<LocalDate, PrintWriter> outs = new HashMap<>();
+            for (Order order : orders.keySet()) {
+                if (!outs.containsKey(order.getDate())) {
+                    outs.put(order.getDate(),
+                            new PrintWriter(new FileWriter(dataSource+"/Orders/Orders_" +
+                                    order.getDate().format(dateFormat) + ".txt")));
+                }
+
+                outs.get(order.getDate()).println(order);
+                outs.get(order.getDate()).flush();
+            }
+            for (PrintWriter out : outs.values()) {
+                out.close();
+            }
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -131,8 +153,15 @@ public class DaoImpl implements Dao {
 
     @Override
     public boolean addOrder(Order order) {
-        return false;
+        try {
+            orders.put(order, order);
+            writeData();
+        } catch (NullPointerException e) {
+            return false;
+        }
+        return true;
     }
+    
 
     @Override
     public boolean updateOrder(Order order) {
@@ -141,6 +170,12 @@ public class DaoImpl implements Dao {
 
     @Override
     public boolean removeOrder(String id) {
-        return false;
+        try {
+            orders.remove(id);
+            writeData();
+        } catch (NullPointerException e) {
+            return false;
+        }
+        return true;
     }
 }

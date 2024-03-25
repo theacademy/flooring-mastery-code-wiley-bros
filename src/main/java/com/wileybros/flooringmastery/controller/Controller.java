@@ -6,6 +6,11 @@ import org.springframework.stereotype.Component;
 public class Controller {
 
     public void run(){
-        System.out.println("WIP");
+        boolean running = true;
+        while (running) {
+
+            System.out.println("WIP");
+
+        }
     }
 }
