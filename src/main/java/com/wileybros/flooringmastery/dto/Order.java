@@ -14,9 +14,6 @@ public class Order {
     private BigDecimal area;
     private LocalDate date;
 
-    public Order(Integer id) {
-        this.id = id;
-    }
 
     public Order(Integer id, String customerName, State state, Product product, BigDecimal area,
                  LocalDate date) {

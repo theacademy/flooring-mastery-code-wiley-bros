@@ -2,11 +2,13 @@ package com.wileybros.flooringmastery.ui;
 
 import com.wileybros.flooringmastery.dto.Order;
 import com.wileybros.flooringmastery.dto.Product;
+import com.wileybros.flooringmastery.dto.State;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,7 +17,7 @@ public class View {
 
     private UserIO io = new UserIOImpl();
 
-    public int displayMenu() {
+    public String displayMenu() {
         io.printLn("* 1. Display Orders");
         io.printLn("* 2. Add an Order");
         io.printLn("* 3. Edit an Order");
@@ -25,7 +27,7 @@ public class View {
         io.printLn("*");
         io.printLn("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
 
-        return io.readInt("Please select from the above choices: ");
+        return io.readString("Please select from the above choices: ");
     }
 
     public void welcomeBanner(){
@@ -49,6 +51,7 @@ public class View {
         io.printLn("Goodbye!");
     }
 
+    // TODO Valid loop....
     public LocalDate askDate(){
         return io.readLocalDate("Enter a date (dd/mm/yyyy): ", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
@@ -74,25 +77,25 @@ public class View {
     }
 
     public String askOrderState(Set<String> stateAbrs ){
-        io.printLn(" - - - - - - - - - - - - - ");
         String abr;
+        io.printLn(" - - - - - - - - - - - - - ");
+        io.printLn("States " + stateAbrs);
         do {
-            io.printLn("States " + stateAbrs);
-            abr = io.readString("Enter a state abbreviation: ");
+            abr = io.readString("Enter a state abbreviation: ").toUpperCase();
         } while (abr.isBlank() || !stateAbrs.contains(abr));
         return abr;
     }
 
-    // TODO add product pricing info
     public String askOrderProduct( Set<Product> products ){
-        io.printLn(" - - - - - - - - - - - - - ");
         String type;
+        io.printLn(" - - - - - - - - - - - - - ");
         io.printLn("Products " + products.stream()
                 .map(p -> p.getType() + ": Cost $" + p.getCostPSqF() + " Labour $" + p.getLabourPSqF())
                 .collect(Collectors.joining(", ", "[", "]")));
         do {
             type = io.readString("Enter the product type: ");
-        } while (type.isBlank() || !products.contains(type));
+            type = type.substring(0,1).toUpperCase() + type.substring(1);
+        } while (type.isBlank() && !products.contains(type));
         return type;
     }
 

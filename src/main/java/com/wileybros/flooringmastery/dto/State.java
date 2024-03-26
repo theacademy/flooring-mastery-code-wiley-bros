@@ -20,10 +20,6 @@ public class State {
         return taxRate;
     }
 
-    public State(String abr) {
-        this.abr = abr;
-    }
-
     public State(String abr, String name, BigDecimal taxRate) {
         this.abr = abr;
         this.name = name;
@@ -33,7 +29,7 @@ public class State {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o.getClass() == String.class) Objects.equals(o, abr);
+        if (o.getClass() == String.class) return Objects.equals(o, abr);
         if (o == null || getClass() != o.getClass()) return false;
 
         State state = (State) o;
