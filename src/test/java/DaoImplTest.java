@@ -102,7 +102,7 @@ public class DaoImplTest {
         assertTrue(dao.addOrder(orderToUpdate));
 
         orderToUpdate.setArea(new BigDecimal(6000));
-        dao.updateOrder(orderToUpdate);
+        dao.addOrder(orderToUpdate);
 
         Set<Order> setOrdersOnDate = dao.getOrdersOnDate(orderDate);
         Order updatedOrder = setOrdersOnDate.stream()

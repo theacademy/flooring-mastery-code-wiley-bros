@@ -18,46 +18,69 @@ public class ServiceImpl implements Service{
         this.dao = dao;
     }
 
+    // 1) Displaying by Date  ----------------------
+
     @Override
     public Set<Order> getOrdersOnData(LocalDate date) {
         return dao.getOrdersOnDate(date);
     }
 
-    @Override
-    public boolean addOrder(Object[] args, LocalDate futureDate) {
-        String customerName = (String) args[0];
-        String stateAbr = (String) args[1];
-        String productType = (String) args[2];
-        BigDecimal area = (BigDecimal) args[3];
-        State state = dao.accessState(stateAbr);
-        Product product = dao.accessProduct(productType);
+    // 2) Adding Order ----------------------------
 
-        Order newOrder = new Order(dao.getNextID(), customerName, state, product, area, futureDate);
+    @Override
+    public boolean addOrder(Order order) {
+        if (order == null) return false;
+        Order newOrder = new Order(dao.getNextID(), order.getCustomerName(), order.getState(), order.getProduct(),
+                order.getArea(),order.getDate());
         return dao.addOrder(newOrder);
     }
 
     @Override
-    public boolean updateOrder(Integer id, Object[] args) {
-        String customerName = (String) args[0];
-        String stateAbr = (String) args[1];
-        String productType = (String) args[2];
-        BigDecimal area = (BigDecimal) args[3];
-        State state = dao.accessState(stateAbr);
-        Product product = dao.accessProduct(productType);
+    public Order createOrder(String customerName, String abr, String type, BigDecimal area, LocalDate futureDate) {
+        if (customerName == null || abr == null || type == null || area == null) return null;
+        return new Order(null, customerName, dao.accessState(abr), dao.accessProduct(type), area, futureDate);
+    }
 
-        Order orderToUpdate = new Order(id, customerName, state, product, area, null);
-        return dao.updateOrder(orderToUpdate);
+    // 3) Updating Order --------------------------
+
+    @Override
+    public boolean updateOrder(Order order) {
+        return dao.addOrder(order);
     }
 
     @Override
-    public boolean removeOrder(Integer id) {
-        return dao.removeOrder(id);
+    public Order combineOrder(Integer id, String customerName, String abr, String type, BigDecimal area) {
+        Order original = getOrder(id);
+        return new Order(
+                id,
+                customerName == null ? original.getCustomerName() : customerName,
+                abr == null ? original.getState() : dao.accessState(abr),
+                type == null ? original.getProduct() : dao.accessProduct(type),
+                area == null ? original.getArea() : area,
+                original.getDate()
+        );
     }
+
+    // 4) Removing Order --------------------------
+
+    @Override
+    public boolean removeOrder(Order order) {
+        if (order == null) return false;
+        return dao.removeOrder(order.getId());
+    }
+    @Override
+    public Order getOrder(Integer id) {
+        return dao.getOrder(id);
+    }
+
+    // 5) Exporting all Data ----------------------
 
     @Override
     public boolean exportAllData() {
         return dao.exportData();
     }
+
+    // General pass methods -----------------------
 
     @Override
     public Set<String> getStateAbrs() {
@@ -68,4 +91,5 @@ public class ServiceImpl implements Service{
     public Set<Product> getProducts() {
         return dao.getProducts();
     }
+
 }

@@ -61,10 +61,9 @@ public class DaoImpl implements Dao {
                         if (temp.getId() > lastMaxID) lastMaxID = temp.getId();
                         orders.put(temp.hashCode(), temp);
                     }
-
+                    scanner.close();
                 }
             }
-
         } catch (FileNotFoundException | SecurityException | NullPointerException e) {
             return false;
         }
@@ -84,6 +83,7 @@ public class DaoImpl implements Dao {
                 State temp = State.parseState(scanner.nextLine());
                 states.put(temp.hashCode(), temp);
             }
+            scanner.close();
         } catch (FileNotFoundException e) {
             return false;
         }
@@ -103,6 +103,7 @@ public class DaoImpl implements Dao {
                 Product temp = Product.parseProduct(scanner.nextLine());
                 products.put(temp.hashCode(), temp);
             }
+            scanner.close();
         } catch (FileNotFoundException e) {
             return false;
         }
@@ -112,10 +113,14 @@ public class DaoImpl implements Dao {
     @Override
     public boolean writeData() {
         try {
-        // This mess deletes all the files in the folder <datasource>/Orders
-        Arrays.stream(Objects.requireNonNull(new File(dataSource + "/Orders").listFiles())).map(File::delete);
+            // This mess deletes all the files in the folder <datasource>/Orders
+            File dir = new File(dataSource + "/Orders");
+            for (File file : dir.listFiles()) {
+                file.delete();
+            }
 
-        // Repopulates the folder with data from memory
+
+            // Repopulates the folder with data from memory
             Map<LocalDate, PrintWriter> outs = new HashMap<>();
             for (Order order : orders.values()) {
                 if (!outs.containsKey(order.getDate())) {
@@ -153,8 +158,12 @@ public class DaoImpl implements Dao {
         return true;
     }
 
-
     // Order Handling --------------------------------------------------
+
+    @Override
+    public Order getOrder(Integer id) {
+        return orders.get(id.hashCode());
+    }
     @Override
     public Set<Order> getOrdersOnDate(LocalDate date) {
         return orders.values().stream().filter(o -> o.getDate().equals(date)).collect(Collectors.toSet());
@@ -170,20 +179,6 @@ public class DaoImpl implements Dao {
         try {
             orders.put(order.hashCode(), order);
             writeData();
-        } catch (NullPointerException e) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean updateOrder(Order updates) {
-        Order order = orders.get(updates.hashCode());
-        try {
-            if (!updates.getCustomerName().isBlank()) order.setCustomerName(updates.getCustomerName());
-            if (updates.getState() != null) order.setState(updates.getState());
-            if (updates.getProduct() != null) order.setProduct(updates.getProduct());
-            if (updates.getArea() != null) order.setArea(updates.getArea());
         } catch (NullPointerException e) {
             return false;
         }
@@ -223,6 +218,4 @@ public class DaoImpl implements Dao {
     public Set<Product> getProducts() {
         return new HashSet<>(products.values());
     }
-
-
 }

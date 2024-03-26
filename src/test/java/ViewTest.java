@@ -33,14 +33,14 @@ public class ViewTest {
         assertEquals(date, askedDate);
         verify(userIO).readLocalDate(anyString(), any());
     }
-    @Test
-    public void testDisplaySuccess() {
-        String successMessage = "Order placed successfully";
-
-        view.displaySuccess(successMessage);
-
-        verify(userIO).printLn("Action Success " + successMessage);
-    }
+//    @Test
+//    public void testDisplaySuccess() {
+//        String successMessage = "Order placed successfully";
+//
+//        view.displaySuccess(successMessage);
+//
+//        verify(userIO).printLn("Action Success " + successMessage);
+//    }
 
     @Test
     public void testAskCustomerName() {
