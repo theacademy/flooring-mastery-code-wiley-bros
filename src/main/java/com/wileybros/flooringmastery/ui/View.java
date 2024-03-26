@@ -26,7 +26,7 @@ public class View {
     }
 
     public void welcomeBanner(){
-        io.printLn("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+        io.printLn("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
         io.printLn("* <<Flooring Program>>");
     }
 
@@ -55,7 +55,7 @@ public class View {
         LocalDate date;
         do {
              date = askDate();
-        } while (LocalDate.now().isBefore(date));
+        } while (LocalDate.now().isAfter(date));
         return date;
     }
 
@@ -73,12 +73,14 @@ public class View {
     }
 
     public void displayOrder(Order order){
-        io.printLn(order.toString());
+        io.printLn("%d) %s - %s : %s - %.0fsqf\n $%.2f + $%.2f (+ $%.2f) = $%.2f\n", order.getId(),
+                order.getCustomerName(), order.getState().getName(), order.getProduct().getType(), order.getArea(),
+                order.getMaterialCost(), order.getLabourCost(), order.getTax(), order.getTotal());
     }
 
     public void displayOrders(Set<Order> orders){
         for (Order order : orders){
-            io.printLn(order.toString());
+            displayOrder(order);
         }
     }
     
