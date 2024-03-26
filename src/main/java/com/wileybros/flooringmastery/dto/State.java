@@ -20,6 +20,10 @@ public class State {
         return taxRate;
     }
 
+    public State(String abr) {
+        this.abr = abr;
+    }
+
     public State(String abr, String name, BigDecimal taxRate) {
         this.abr = abr;
         this.name = name;
