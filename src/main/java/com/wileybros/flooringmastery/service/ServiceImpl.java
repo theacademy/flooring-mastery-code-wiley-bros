@@ -30,8 +30,8 @@ public class ServiceImpl implements Service{
         String stateAbr = (String) args[1];
         String productType = (String) args[2];
         BigDecimal area = (BigDecimal) args[3];
-        State state = dao.getState(stateAbr);
-        Product product = dao.getProduct(productType);
+        State state = dao.accessState(stateAbr);
+        Product product = dao.accessProduct(productType);
 
         Order newOrder = new Order(dao.getNextID(), customerName, state, product, area, futureDate);
         return dao.addOrder(newOrder);
@@ -43,8 +43,8 @@ public class ServiceImpl implements Service{
         String stateAbr = args[1].toString();
         String productType = args[2].toString();
         BigDecimal area = new BigDecimal(args[3].toString());
-        State state = dao.getState(stateAbr);
-        Product product = dao.getProduct(productType);
+        State state = dao.accessState(stateAbr);
+        Product product = dao.accessProduct(productType);
 
         Order orderToUpdate = new Order(id, customerName, state, product, area, null);
         return dao.updateOrder(orderToUpdate);

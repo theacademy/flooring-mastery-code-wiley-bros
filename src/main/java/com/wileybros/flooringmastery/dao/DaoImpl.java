@@ -117,6 +117,7 @@ public class DaoImpl implements Dao {
                     outs.put(order.getDate(),
                             new PrintWriter(new FileWriter(dataSource+"/Orders/Orders_" +
                                     order.getDate().format(dateFormat) + ".txt")));
+                    outs.get(order.getDate()).println("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total");
                 }
 
                 outs.get(order.getDate()).println(order);
@@ -137,13 +138,13 @@ public class DaoImpl implements Dao {
     }
 
     @Override
-    public State getState(String abr) {
-        return null;
+    public State accessState(String abr) {
+        return states.get(abr.hashCode());
     }
 
     @Override
-    public Product getProduct(String type) {
-        return null;
+    public Product accessProduct(String type) {
+        return products.get(type.hashCode());
     }
 
     @Override
@@ -172,7 +173,7 @@ public class DaoImpl implements Dao {
     public boolean updateOrder(Order updates) {
         Order order = orders.get(updates.hashCode());
         try {
-            if (updates.getCustomerName() != null) order.setCustomerName(updates.getCustomerName());
+            if (!updates.getCustomerName().isBlank()) order.setCustomerName(updates.getCustomerName());
             if (updates.getState() != null) order.setState(updates.getState());
             if (updates.getProduct() != null) order.setProduct(updates.getProduct());
             if (updates.getArea() != null) order.setArea(updates.getArea());

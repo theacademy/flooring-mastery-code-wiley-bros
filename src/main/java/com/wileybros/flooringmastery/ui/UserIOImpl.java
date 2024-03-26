@@ -37,7 +37,9 @@ public class UserIOImpl implements UserIO {
 
     @Override
     public BigDecimal readBigDecimal(String prompt) {
-        return new BigDecimal(readString(prompt));
+        String num = readString(prompt);
+        if (num.isBlank()) return null;
+        return new BigDecimal(num);
     }
 
     @Override

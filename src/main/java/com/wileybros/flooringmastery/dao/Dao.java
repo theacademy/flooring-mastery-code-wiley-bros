@@ -14,8 +14,8 @@ public interface Dao {
     boolean writeData();
     boolean exportData();
 
-    State getState(String abr);
-    Product getProduct(String type);
+    State accessState(String abr);
+    Product accessProduct(String type);
 
     Set<Order> getOrdersOnDate(LocalDate date);
     Integer getNextID();
