@@ -12,8 +12,6 @@ public class View {
     private UserIO io = new UserIOImpl();
 
     public int displayMenu() {
-        io.printLn("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
-        io.printLn("* <<Flooring Program>>");
         io.printLn("* 1. Display Orders");
         io.printLn("* 2. Add an Order");
         io.printLn("* 3. Edit an Order");
