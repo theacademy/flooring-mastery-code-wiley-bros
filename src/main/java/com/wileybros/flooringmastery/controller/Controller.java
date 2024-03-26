@@ -71,10 +71,12 @@ public class Controller {
                 view.askOrderProduct(service.getProductTypes()),
                 view.askOrderArea()
         };
-        if (service.addOrder(args, futureDate)) {
-            view.displaySuccess("Order added");
-        } else {
-            view.displayFailure("Order not added");
+        if (view.confirmOrder(args).equals("Y")){
+            if (service.addOrder(args, futureDate)) {
+                view.displaySuccess("Order added");
+            } else {
+                view.displayFailure("Order not added");
+            }
         }
     }
 

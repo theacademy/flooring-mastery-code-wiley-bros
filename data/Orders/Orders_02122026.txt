@@ -1,0 +1,3 @@
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+7,TERRY,TX,4.45,Tile,1500.00,3.50,4.15,5250.00,6225.00,510.64,11985.64
+8,Lewis,TX,4.45,Wood,2500.00,5.15,4.75,12875.00,11875.00,1101.38,25851.38

@@ -105,11 +105,26 @@ public class View {
         return new BigDecimal(area);
     }
 
+    public void displayOrderArgs(Object[] args){
+        io.print("%s - %s : %s - %.0fsqf\n", args[0], args[1], args[2], args[3]);
+    }
 
+    public void displayOrderSummaryBanner(){
+        io.printLn("---ORDER SUMMARY---");
+    }
+
+    public String confirmOrder(Object[] args){
+        displayOrderSummaryBanner();
+        displayOrderArgs(args);
+        return io.readString("Do you want to place the order? (Y/N)\n").toUpperCase();
+    }
+
+
+    // take out args.
     public void displayOrder(Order order){
-        io.printLn("%d) %s - %s : %s - %.0fsqf\n $%.2f + $%.2f (+ $%.2f) = $%.2f\n", order.getId(),
-                order.getCustomerName(), order.getState().getName(), order.getProduct().getType(), order.getArea(),
-                order.getMaterialCost(), order.getLabourCost(), order.getTax(), order.getTotal());
+        io.print("%d) %s - %s : %s - %.0fsqf\n", order.getId());
+        displayOrderArgs(new Object[]{order.getCustomerName(), order.getState().getName(), order.getProduct().getType(), order.getArea()});
+        io.printLn("$%.2f + $%.2f (+ $%.2f) = $%.2f\n",order.getMaterialCost(), order.getLabourCost(), order.getTax(), order.getTotal());
     }
 
     public void displayOrders(Set<Order> orders){
