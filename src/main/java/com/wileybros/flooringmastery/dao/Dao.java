@@ -12,15 +12,14 @@ public interface Dao {
 
     // File Handling ---------------------------
     boolean readData();
-    // TODO Does this delete empty dates?
     boolean writeData();
     boolean exportData();
 
     // Order Handling ---------------------------
+    Order getOrder(Integer id);
     Set<Order> getOrdersOnDate(LocalDate date);
     Integer getNextID();
     boolean addOrder(Order order);
-    boolean updateOrder(Order order);
     boolean removeOrder(Integer id);
 
     // State and Product Handling ---------------

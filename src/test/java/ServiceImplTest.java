@@ -1,5 +1,6 @@
 import com.wileybros.flooringmastery.dao.Dao;
 import com.wileybros.flooringmastery.dao.DaoImpl;
+import com.wileybros.flooringmastery.dto.Order;
 import com.wileybros.flooringmastery.service.ServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,10 +22,10 @@ public class ServiceImplTest {
 
     @Test
     public void testAddOrder() {
-        Object[] args = new Object[]{"TestCustomer", "TX", "Laminate", new BigDecimal(5000)};
-        LocalDate futureDate = LocalDate.now().plusDays(1);
+        Order order = service.createOrder(1, "TestCustomer", "TX", "Laminate",
+                new BigDecimal(5000), LocalDate.now().plusDays(1));
 
-        boolean result = service.addOrder(args, futureDate);
+        boolean result = service.addOrder(order);
 
         assertTrue(result);
     }

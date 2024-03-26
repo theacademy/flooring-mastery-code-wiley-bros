@@ -65,15 +65,15 @@ public class Controller {
     }
 
     private void addAnOrder() {
-        LocalDate futureDate = view.askFutureDate();
-        Object[] args = {
+        Order order = service.createOrder(
                 view.askCustomerName(),
                 view.askOrderState(service.getStateAbrs()),
                 view.askOrderProduct(service.getProducts()),
-                view.askOrderArea()
-        };
-        if (view.confirmOrder(args).equals("Y")){
-            if (service.addOrder(args, futureDate)) {
+                view.askOrderArea(),
+                view.askFutureDate()
+        );
+        if (view.placeOrderConfirmation(order)){
+            if (service.addOrder(order)) {
                 view.displaySuccess("Order added");
             } else {
                 view.displayFailure("Order not added");
@@ -82,15 +82,15 @@ public class Controller {
     }
 
     private void editAnOrder() {
-        Integer id = view.askOrderID();
-        Object[] args = {
+        Order order = service.combineOrder(
+                view.askOrderID(),
                 view.askCustomerName(),
                 view.askOrderState(service.getStateAbrs()),
                 view.askOrderProduct(service.getProducts()),
                 view.askOrderArea()
-        };
-        if (view.updateOrder(args).equals("Y")){
-            if (service.updateOrder(id, args)) {
+        );
+        if (view.updateOrderConfirmation(order)){
+            if (service.updateOrder(order)) {
                 view.displaySuccess("Order edited");
             } else {
                 view.displayFailure("Order not edited");
@@ -99,14 +99,15 @@ public class Controller {
     }
 
     private void removeAnOrder() {
-        Integer id = view.askOrderID();
-        if (service.removeOrder(id)) {
-            view.displaySuccess("Order removed");
-        } else {
-            view.displayFailure("Order not removed");
+        Order order = service.getOrder(view.askOrderID());
+        if (view.removeOrderConfirmation(order)) {
+            if (service.removeOrder(order)) {
+                view.displaySuccess("Order removed");
+            } else {
+                view.displayFailure("Order not removed");
+            }
         }
     }
-
     private void exportAllData() {
         if (service.exportAllData()) {
             view.displaySuccess("Data exported");

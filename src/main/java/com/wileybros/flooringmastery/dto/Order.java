@@ -14,6 +14,9 @@ public class Order {
     private BigDecimal area;
     private LocalDate date;
 
+    public Order(Integer id) {
+        this.id = id;
+    }
 
     public Order(Integer id, String customerName, State state, Product product, BigDecimal area,
                  LocalDate date) {
@@ -43,26 +46,6 @@ public class Order {
     }
 
     // Dumb Getters
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public void setArea(BigDecimal area) {
-        this.area = area;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -87,6 +70,7 @@ public class Order {
         return date;
     }
 
+    // Overrides
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -118,4 +102,26 @@ public class Order {
         sb.append(getTax().setScale(2, UP)).append(",").append(getTotal().setScale(2, UP));
         return sb.toString();
     }
+
+    // Test Setters
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public void setArea(BigDecimal area) {
+        this.area = area;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
 }
