@@ -26,10 +26,10 @@ public class ServiceImpl implements Service{
 
     @Override
     public boolean addOrder(Object[] args, LocalDate futureDate) {
-        String customerName = args[0].toString();
-        String stateAbr = args[1].toString();
-        String productType = args[2].toString();
-        BigDecimal area = new BigDecimal(args[3].toString());
+        String customerName = (String) args[0];
+        String stateAbr = (String) args[1];
+        String productType = (String) args[2];
+        BigDecimal area = (BigDecimal) args[3];
         State state = dao.getState(stateAbr);
         Product product = dao.getProduct(productType);
 
