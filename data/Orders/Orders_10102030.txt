@@ -1,2 +1,0 @@
-OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
-999,David,TX,4.45,Carpet,10,2.25,2.10,22.50,21.00,1.93575,45.43575
