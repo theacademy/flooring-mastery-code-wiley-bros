@@ -128,6 +128,11 @@ public class View {
         return io.readString("Do you want to place the order? (Y/N)\n").toUpperCase();
     }
 
+    public String updateOrder(Object[] args){
+        displayOrderSummaryBanner();
+        displayOrderArgs(args);
+        return io.readString("Do you want to update the order? (Y/N)\n").toUpperCase();
+    }
 
     // take out args.
     public void displayOrder(Order order){
