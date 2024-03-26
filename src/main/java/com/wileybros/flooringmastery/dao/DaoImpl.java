@@ -189,6 +189,7 @@ public class DaoImpl implements Dao {
             if (updates.getState() != null) order.setState(updates.getState());
             if (updates.getProduct() != null) order.setProduct(updates.getProduct());
             if (updates.getArea() != null) order.setArea(updates.getArea());
+            writeData();
         } catch (NullPointerException e) {
             return false;
         }
