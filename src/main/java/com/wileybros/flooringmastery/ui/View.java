@@ -3,6 +3,7 @@ package com.wileybros.flooringmastery.ui;
 import com.wileybros.flooringmastery.dto.Order;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
@@ -62,19 +63,49 @@ public class View {
         return io.readInt("Enter Order Number: ");
     }
 
-    public Object[] askOrderArgs( Set<String> stateAbrs, Set<String> productTypes){
-        Object[] objs = new Object[4];
-        objs[0] = io.readString("Enter the customer name: ");
-        io.printLn(" - - - - - - - - - - - - - ");
-        io.printLn("States " + stateAbrs);
-        objs[1] = io.readString("Enter a state abbreviation: ");
-        io.printLn(" - - - - - - - - - - - - - ");
-        io.printLn("Products " + productTypes);
-        objs[2] = io.readString("Enter the product type: ");
-        io.printLn(" - - - - - - - - - - - - - ");
-        objs[3] = io.readBigDecimal("Enter the area: ");
-        return objs;
+    // TODO Check if it's not blank and allows only [A-z0-9,.]
+    // TODO Translate , to ;
+    public String askCustomerName(){
+        String name;
+        do {
+            name = io.readString("Enter the customer name: ");
+        } while (name.isBlank() || !name.matches("[A-z0-9,.]+"));
+        return name.replaceAll(",",";");
     }
+
+    // TODO Check is valid state
+    public String askOrderState(String original, Set<String> stateAbrs ){
+        io.printLn(" - - - - - - - - - - - - - ");
+        String abr;
+        do {
+            io.printLn("States " + stateAbrs);
+//            if (original.isBlank()) io.print("(%s)");
+            abr = io.readString("Enter a state abbreviation: ");
+        } while (abr.isBlank() || !stateAbrs.contains(abr));
+        return abr;
+    }
+
+    // TODO CHeck if valid product
+    // TODO add product pricing info
+    public String askOrderProduct( Set<String> productTypes ){
+        io.printLn(" - - - - - - - - - - - - - ");
+        String type;
+        do {
+            io.printLn("Products " + productTypes);
+            type = io.readString("Enter the product type: ");
+        } while (type.isBlank() || !productTypes.contains(type));
+        return type;
+    }
+
+    // TODO Check if area is greater than 100
+    public BigDecimal askOrderArea( ){
+        Integer area;
+        do {
+            area = io.readInt("Enter the area: ");
+        } while (area < 100);
+        return new BigDecimal(area);
+    }
+
 
     public void displayOrder(Order order){
         io.printLn("%d) %s - %s : %s - %.0fsqf\n $%.2f + $%.2f (+ $%.2f) = $%.2f\n", order.getId(),
