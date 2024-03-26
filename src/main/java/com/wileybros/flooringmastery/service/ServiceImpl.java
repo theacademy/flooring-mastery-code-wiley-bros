@@ -16,6 +16,7 @@ public class ServiceImpl implements Service{
 
     public ServiceImpl(Dao dao) {
         this.dao = dao;
+        dao.readData();
     }
 
     @Override
