@@ -8,7 +8,7 @@ import java.util.Set;
 public interface Service {
 
     Set<Order> getOrdersOnData(LocalDate date);
-    boolean addOrder(Integer id, Object[] args);
+    boolean addOrder(Object[] args, LocalDate futureDate);
     boolean updateOrder(Integer id, Object[] args);
     boolean removeOrder(Integer id);
     boolean exportAllData();
