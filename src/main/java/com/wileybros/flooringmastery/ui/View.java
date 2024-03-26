@@ -129,6 +129,10 @@ public class View {
 
     public void displayOrderArgs(Object[] args){
         io.print("%s - %s : %s - %.0fsqf\n", args[0], args[1], args[2], args[3]);
+    public String updateOrder(Object[] args){
+        displayOrderSummaryBanner();
+        displayOrderArgs(args);
+        return io.readString("Do you want to update the order? (Y/N)\n").toUpperCase();
     }
 
     public void displayOrder(Order order){

@@ -89,10 +89,12 @@ public class Controller {
                 view.askOrderProduct(service.getProducts()),
                 view.askOrderArea()
         };
-        if (service.updateOrder(id, args)) {
-            view.displaySuccess("Order edited");
-        } else {
-            view.displayFailure("Order not edited");
+        if (view.updateOrder(args).equals("Y")){
+            if (service.updateOrder(id, args)) {
+                view.displaySuccess("Order edited");
+            } else {
+                view.displayFailure("Order not edited");
+            }
         }
     }
 
