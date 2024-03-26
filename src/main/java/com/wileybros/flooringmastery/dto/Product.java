@@ -8,10 +8,6 @@ public class Product {
     private BigDecimal costPSqF;
     private BigDecimal labourPSqF;
 
-    public Product(String type) {
-        this.type = type;
-    }
-
     public Product(String type, BigDecimal costPSqF, BigDecimal labourPSqF) {
         this.type = type;
         this.costPSqF = costPSqF;
