@@ -12,6 +12,7 @@ public interface Dao {
 
     // File Handling ---------------------------
     boolean readData();
+    // TODO Does this delete empty dates?
     boolean writeData();
     boolean exportData();
 
@@ -26,5 +27,5 @@ public interface Dao {
     State accessState(String abr);
     Product accessProduct(String type);
     Set<String> getStateAbrs();
-    Set<String> getProductTypes();
+    Set<Product> getProducts();
 }

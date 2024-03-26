@@ -205,13 +205,12 @@ public class DaoImpl implements Dao {
     // State and Product Handling ----------------------------------------
     @Override
     public State accessState(String abr) {
-        return states.get(abr.toUpperCase().hashCode());
+        return states.get(abr.hashCode());
     }
 
     @Override
     public Product accessProduct(String type) {
         if (type.isBlank()) return null;
-        type = type.substring(0,1).toUpperCase() + type.substring(1);
         return products.get(type.hashCode());
     }
 
@@ -221,8 +220,8 @@ public class DaoImpl implements Dao {
     }
 
     @Override
-    public Set<String> getProductTypes() {
-        return products.values().stream().map(Product::getType).collect(Collectors.toSet());
+    public Set<Product> getProducts() {
+        return new HashSet<>(products.values());
     }
 
 

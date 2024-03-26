@@ -1,6 +1,7 @@
 package com.wileybros.flooringmastery.service;
 
 import com.wileybros.flooringmastery.dto.Order;
+import com.wileybros.flooringmastery.dto.Product;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -13,5 +14,5 @@ public interface Service {
     boolean removeOrder(Integer id);
     boolean exportAllData();
     Set<String> getStateAbrs();
-    Set<String> getProductTypes();
+    Set<Product> getProducts();
 }

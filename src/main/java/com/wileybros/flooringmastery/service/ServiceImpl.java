@@ -65,7 +65,7 @@ public class ServiceImpl implements Service{
     }
 
     @Override
-    public Set<String> getProductTypes() {
-        return dao.getProductTypes();
+    public Set<Product> getProducts() {
+        return dao.getProducts();
     }
 }

@@ -20,39 +20,40 @@ public class Controller {
 
     public void run() {
         boolean running = true;
-        int menuSelection = 0;
+        String menuSelection;
         while (running) {
 
             menuSelection = getMenuSelection();
 
             switch (menuSelection) {
-                case 1:
+                case "1":
                     displayDateSpecificOrders();
                     break;
-                case 2:
+                case "2":
                     addOrder();
                     break;
-                case 3:
+                case "3":
                     editAnOrder();
                     break;
-                case 4:
+                case "4":
                     removeAnOrder();
                     break;
-                case 5:
+                case "5":
                     exportAllData();
                     break;
-                case 6:
+                case "6":
                     running = false;
                     break;
                 default:
                     view.displayError("Input invalid command.");
+                    break;
             }
 
         }
         view.displayExit();
     }
 
-    private int getMenuSelection() {
+    private String getMenuSelection() {
         view.welcomeBanner();
         return view.displayMenu();
     }
@@ -68,7 +69,7 @@ public class Controller {
         Object[] args = {
                 view.askCustomerName(),
                 view.askOrderState(service.getStateAbrs()),
-                view.askOrderProduct(service.getProductTypes()),
+                view.askOrderProduct(service.getProducts()),
                 view.askOrderArea()
         };
         if (view.confirmOrder(args).equals("Y")){
@@ -85,7 +86,7 @@ public class Controller {
         Object[] args = {
                 view.askCustomerName(),
                 view.askOrderState(service.getStateAbrs()),
-                view.askOrderProduct(service.getProductTypes()),
+                view.askOrderProduct(service.getProducts()),
                 view.askOrderArea()
         };
         if (service.updateOrder(id, args)) {
