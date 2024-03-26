@@ -221,8 +221,8 @@ public class DaoImpl implements Dao {
     }
 
     @Override
-    public Set<String> getProductTypes() {
-        return products.values().stream().map(Product::getType).collect(Collectors.toSet());
+    public Set<Product> getProducts() {
+        return new HashSet<>(products.values());
     }
 
 

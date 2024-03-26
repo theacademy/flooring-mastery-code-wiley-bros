@@ -1,12 +1,14 @@
 package com.wileybros.flooringmastery.ui;
 
 import com.wileybros.flooringmastery.dto.Order;
+import com.wileybros.flooringmastery.dto.Product;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class View {
@@ -63,17 +65,14 @@ public class View {
         return io.readInt("Enter Order Number: ");
     }
 
-    // TODO Check if it's not blank and allows only [A-z0-9,.]
-    // TODO Translate , to ;
     public String askCustomerName(){
         String name;
         do {
             name = io.readString("Enter the customer name: ");
-        } while (name.isBlank() || !name.matches("[A-z0-9,.]+"));
+        } while (name.isBlank() || !name.matches("[A-z0-9,. ]+"));
         return name.replaceAll(",",";");
     }
 
-    // TODO Check is valid state
     public String askOrderState(Set<String> stateAbrs ){
         io.printLn(" - - - - - - - - - - - - - ");
         String abr;
@@ -84,19 +83,19 @@ public class View {
         return abr;
     }
 
-    // TODO CHeck if valid product
     // TODO add product pricing info
-    public String askOrderProduct( Set<String> productTypes ){
+    public String askOrderProduct( Set<Product> products ){
         io.printLn(" - - - - - - - - - - - - - ");
         String type;
+        io.printLn("Products " + products.stream()
+                .map(p -> p.getType() + ": Cost $" + p.getCostPSqF() + " Labour $" + p.getLabourPSqF())
+                .collect(Collectors.joining(", ", "[", "]")));
         do {
-            io.printLn("Products " + productTypes);
             type = io.readString("Enter the product type: ");
-        } while (type.isBlank() || !productTypes.contains(type));
+        } while (type.isBlank() || !products.contains(type));
         return type;
     }
 
-    // TODO Check if area is greater than 100
     public BigDecimal askOrderArea( ){
         Integer area;
         do {
@@ -108,8 +107,9 @@ public class View {
 
     public void displayOrder(Order order){
         io.printLn("%d) %s - %s : %s - %.0fsqf\n $%.2f + $%.2f (+ $%.2f) = $%.2f\n", order.getId(),
-                order.getCustomerName(), order.getState().getName(), order.getProduct().getType(), order.getArea(),
-                order.getMaterialCost(), order.getLabourCost(), order.getTax(), order.getTotal());
+                order.getCustomerName().replaceAll(";", ","), order.getState().getName(),
+                order.getProduct().getType(), order.getArea(), order.getMaterialCost(), order.getLabourCost(),
+                order.getTax(), order.getTotal());
     }
 
     public void displayOrders(Set<Order> orders){

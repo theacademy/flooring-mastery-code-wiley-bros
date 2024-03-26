@@ -68,7 +68,7 @@ public class Controller {
         Object[] args = {
                 view.askCustomerName(),
                 view.askOrderState(service.getStateAbrs()),
-                view.askOrderProduct(service.getProductTypes()),
+                view.askOrderProduct(service.getProducts()),
                 view.askOrderArea()
         };
         if (service.addOrder(args, futureDate)) {
@@ -83,7 +83,7 @@ public class Controller {
         Object[] args = {
                 view.askCustomerName(),
                 view.askOrderState(service.getStateAbrs()),
-                view.askOrderProduct(service.getProductTypes()),
+                view.askOrderProduct(service.getProducts()),
                 view.askOrderArea()
         };
         if (service.updateOrder(id, args)) {
