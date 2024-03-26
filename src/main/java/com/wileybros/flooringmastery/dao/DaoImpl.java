@@ -3,9 +3,7 @@ package com.wileybros.flooringmastery.dao;
 import com.wileybros.flooringmastery.dto.Order;
 import com.wileybros.flooringmastery.dto.Product;
 import com.wileybros.flooringmastery.dto.State;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
-
 import java.io.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,13 +11,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
-// TODO FIX Hashcode for Maps
 @Component
 public class DaoImpl implements Dao {
-    private Map<State, State> states;
-    private Map<Product, Product> products;
-    private Map<Order, Order> orders;
+    private Map<Integer, State> states;
+    private Map<Integer, Product> products;
+    private Map<Integer, Order> orders;
     final private String dataSource = "data";
     final private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MMddyyyy");
     private Integer lastMaxID = 0;
@@ -33,8 +29,7 @@ public class DaoImpl implements Dao {
 
     private boolean readOrderData() {
         try {                   // Tries to get Orders
-            String directoryPath = dataSource + "/Orders";
-            File directory = new File(directoryPath);
+            File directory = new File(dataSource + "/Orders");
 
             Scanner scanner;
             orders = new HashMap<>();
@@ -52,14 +47,14 @@ public class DaoImpl implements Dao {
                     while (scanner.hasNextLine()) {
                         String[] args = scanner.nextLine().split(",");
                         Order temp = new Order(
-                                Integer.parseInt(args[0]),      // OrderNumber
-                                args[1],                        // CustomerName
-                                states.get(new State(args[2])),            // State
-                                products.get(new Product(args[4])),          // ProductType
-                                new BigDecimal(args[5]),        // Area
-                                date);                          // Date in Filename
+                                Integer.parseInt(args[0]),              // OrderNumber
+                                args[1],                                // CustomerName
+                                states.get(args[2].hashCode()),         // State
+                                products.get(args[4].hashCode()),     // ProductType
+                                new BigDecimal(args[5]),                // Area
+                                date);                                  // Date in Filename
                         if (temp.getId() > lastMaxID) lastMaxID = temp.getId();
-                        orders.put(temp, temp);
+                        orders.put(temp.hashCode(), temp);
                     }
 
                 }
@@ -82,7 +77,7 @@ public class DaoImpl implements Dao {
             scanner.nextLine();
             while (scanner.hasNextLine()) {
                 State temp = State.parseState(scanner.nextLine());
-                states.put(temp, temp);
+                states.put(temp.hashCode(), temp);
             }
         } catch (FileNotFoundException e) {
             return false;
@@ -101,7 +96,7 @@ public class DaoImpl implements Dao {
             scanner.nextLine();
             while (scanner.hasNextLine()) {
                 Product temp = Product.parseProduct(scanner.nextLine());
-                products.put(temp, temp);
+                products.put(temp.hashCode(), temp);
             }
         } catch (FileNotFoundException e) {
             return false;
@@ -111,11 +106,13 @@ public class DaoImpl implements Dao {
 
     @Override
     public boolean writeData() {
-        // TODO Delete existing files
+        // This mess deletes all the files in the folder <datasource>/Orders
+        Arrays.stream(Objects.requireNonNull(new File(dataSource + "/Orders").listFiles())).map(File::delete);
 
+        // Repopulates the folder with data from memory
         try {
             Map<LocalDate, PrintWriter> outs = new HashMap<>();
-            for (Order order : orders.keySet()) {
+            for (Order order : orders.values()) {
                 if (!outs.containsKey(order.getDate())) {
                     outs.put(order.getDate(),
                             new PrintWriter(new FileWriter(dataSource+"/Orders/Orders_" +
@@ -151,7 +148,7 @@ public class DaoImpl implements Dao {
 
     @Override
     public Set<Order> getOrdersOnDate(LocalDate date) {
-        return orders.keySet().stream().filter(o -> o.getDate().equals(date)).collect(Collectors.toSet());
+        return orders.values().stream().filter(o -> o.getDate().equals(date)).collect(Collectors.toSet());
     }
 
     @Override
@@ -162,7 +159,7 @@ public class DaoImpl implements Dao {
     @Override
     public boolean addOrder(Order order) {
         try {
-            orders.put(order, order);
+            orders.put(order.hashCode(), order);
             writeData();
         } catch (NullPointerException e) {
             return false;
@@ -172,13 +169,13 @@ public class DaoImpl implements Dao {
     
 
     @Override
-    public boolean updateOrder(Order newO) {
-        Order order = orders.get(newO);
+    public boolean updateOrder(Order updates) {
+        Order order = orders.get(updates.hashCode());
         try {
-            if (newO.getCustomerName() != null) order.setCustomerName(newO.getCustomerName());
-            if (newO.getState() != null) order.setState(newO.getState());
-            if (newO.getProduct() != null) order.setProduct(newO.getProduct());
-            if (newO.getArea() != null) order.setArea(newO.getArea());
+            if (updates.getCustomerName() != null) order.setCustomerName(updates.getCustomerName());
+            if (updates.getState() != null) order.setState(updates.getState());
+            if (updates.getProduct() != null) order.setProduct(updates.getProduct());
+            if (updates.getArea() != null) order.setArea(updates.getArea());
         } catch (NullPointerException e) {
             return false;
         }
@@ -188,7 +185,7 @@ public class DaoImpl implements Dao {
     @Override
     public boolean removeOrder(Integer id) {
         try {
-            orders.remove(id);
+            orders.remove(id.hashCode());
             writeData();
         } catch (NullPointerException e) {
             return false;
