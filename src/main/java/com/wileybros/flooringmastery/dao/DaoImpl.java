@@ -61,10 +61,9 @@ public class DaoImpl implements Dao {
                         if (temp.getId() > lastMaxID) lastMaxID = temp.getId();
                         orders.put(temp.hashCode(), temp);
                     }
-
+                    scanner.close();
                 }
             }
-
         } catch (FileNotFoundException | SecurityException | NullPointerException e) {
             return false;
         }
@@ -84,6 +83,7 @@ public class DaoImpl implements Dao {
                 State temp = State.parseState(scanner.nextLine());
                 states.put(temp.hashCode(), temp);
             }
+            scanner.close();
         } catch (FileNotFoundException e) {
             return false;
         }
@@ -103,6 +103,7 @@ public class DaoImpl implements Dao {
                 Product temp = Product.parseProduct(scanner.nextLine());
                 products.put(temp.hashCode(), temp);
             }
+            scanner.close();
         } catch (FileNotFoundException e) {
             return false;
         }
@@ -112,10 +113,14 @@ public class DaoImpl implements Dao {
     @Override
     public boolean writeData() {
         try {
-        // This mess deletes all the files in the folder <datasource>/Orders
-        Arrays.stream(Objects.requireNonNull(new File(dataSource + "/Orders").listFiles())).map(File::delete);
+            // This mess deletes all the files in the folder <datasource>/Orders
+            File dir = new File(dataSource + "/Orders");
+            for (File file : dir.listFiles()) {
+                file.delete();
+            }
 
-        // Repopulates the folder with data from memory
+
+            // Repopulates the folder with data from memory
             Map<LocalDate, PrintWriter> outs = new HashMap<>();
             for (Order order : orders.values()) {
                 if (!outs.containsKey(order.getDate())) {
