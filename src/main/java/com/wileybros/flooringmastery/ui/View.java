@@ -4,6 +4,7 @@ import com.wileybros.flooringmastery.dto.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 @Component
@@ -46,7 +47,7 @@ public class View {
     }
 
     public LocalDate askDate(){
-        return io.readLocalDate("Enter a date: ");
+        return io.readLocalDate("Enter a date (dd/MM/yyyy): ", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public LocalDate askFutureDate(){

@@ -2,8 +2,11 @@ package com.wileybros.flooringmastery.ui;
 
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.DateFormatter;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 @Component
@@ -38,7 +41,7 @@ public class UserIOImpl implements UserIO {
     }
 
     @Override
-    public LocalDate readLocalDate(String prompt) {
-        return LocalDate.parse(readString(prompt));
+    public LocalDate readLocalDate(String prompt, DateTimeFormatter format) {
+        return LocalDate.parse(readString(prompt), format);
     }
 }

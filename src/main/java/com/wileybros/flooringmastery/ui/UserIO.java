@@ -2,6 +2,7 @@ package com.wileybros.flooringmastery.ui;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public interface UserIO {
 
@@ -10,5 +11,5 @@ public interface UserIO {
     String readString(String prompt);
     Integer readInt(String prompt);
     BigDecimal readBigDecimal(String prompt);
-    LocalDate readLocalDate(String prompt);
+    LocalDate readLocalDate(String prompt, DateTimeFormatter format);
 }
