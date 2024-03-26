@@ -30,7 +30,7 @@ public class Controller {
                     displayDateSpecificOrders();
                     break;
                 case "2":
-                    addOrder();
+                    addAnOrder();
                     break;
                 case "3":
                     editAnOrder();
@@ -64,7 +64,7 @@ public class Controller {
         view.displayOrders(orders);
     }
 
-    private void addOrder() {
+    private void addAnOrder() {
         LocalDate futureDate = view.askFutureDate();
         Object[] args = {
                 view.askCustomerName(),

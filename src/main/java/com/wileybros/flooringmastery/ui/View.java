@@ -31,6 +31,7 @@ public class View {
         return io.readString("Please select from the above choices: ");
     }
 
+    // STATIC DISPLAY METHODS
     public void welcomeBanner(){
         io.printLn("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
         io.printLn("* <<Flooring Program>>");
@@ -52,7 +53,7 @@ public class View {
         io.printLn("Goodbye!");
     }
 
-    // TODO Valid loop....
+    // ASK METHODS
     public LocalDate askDate(){
         while (true) {
             try {
@@ -79,7 +80,7 @@ public class View {
         String name;
         do {
             name = io.readString("Enter the customer name: ");
-        } while (name.isBlank() || !name.matches("[A-z0-9,. ]+"));
+        } while (!(name.isEmpty() || name.matches("[A-z0-9,. ]+")));
         return name.replaceAll(",",";");
     }
 
@@ -89,7 +90,7 @@ public class View {
         io.printLn("States " + stateAbrs);
         do {
             abr = io.readString("Enter a state abbreviation: ").toUpperCase();
-        } while (abr.isBlank() || !stateAbrs.contains(abr));
+        } while (!(abr.isEmpty() || stateAbrs.contains(abr)));
         return abr;
     }
 
@@ -101,8 +102,8 @@ public class View {
                 .collect(Collectors.joining(", ", "[", "]")));
         do {
             type = io.readString("Enter the product type: ");
-            type = type.substring(0,1).toUpperCase() + type.substring(1);
-        } while (type.isBlank() && !products.contains(type));
+            if (!type.isBlank()) type = type.substring(0,1).toUpperCase() + type.substring(1);
+        } while (!(type.isEmpty() || products.contains(type)));
         return type;
     }
 
@@ -110,13 +111,11 @@ public class View {
         Integer area;
         do {
             area = io.readInt("Enter the area: ");
+            if (area == null) return null;
         } while (area < 100);
         return new BigDecimal(area);
     }
 
-    public void displayOrderArgs(Object[] args){
-        io.print("%s - %s : %s - %.0fsqf\n", args[0], args[1], args[2], args[3]);
-    }
 
     public void displayOrderSummaryBanner(){
         io.printLn("---ORDER SUMMARY---");
@@ -128,8 +127,10 @@ public class View {
         return io.readString("Do you want to place the order? (Y/N)\n").toUpperCase();
     }
 
+    public void displayOrderArgs(Object[] args){
+        io.print("%s - %s : %s - %.0fsqf\n", args[0], args[1], args[2], args[3]);
+    }
 
-    // take out args.
     public void displayOrder(Order order){
         io.print("%d) ", order.getId());
         displayOrderArgs(new Object[]{order.getCustomerName(), order.getState().getName(), order.getProduct().getType(), order.getArea()});

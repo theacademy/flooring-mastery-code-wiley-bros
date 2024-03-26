@@ -32,7 +32,9 @@ public class UserIOImpl implements UserIO {
 
     @Override
     public Integer readInt(String prompt) {
-        return Integer.parseInt(readString(prompt));
+        String result = readString(prompt);
+        if (result.isBlank()) return null;
+        return Integer.parseInt(result);
     }
 
     @Override
