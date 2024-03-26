@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -53,7 +54,13 @@ public class View {
 
     // TODO Valid loop....
     public LocalDate askDate(){
-        return io.readLocalDate("Enter a date (dd/mm/yyyy): ", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        while (true) {
+            try {
+                return io.readLocalDate("Enter a date (dd/mm/yyyy): ", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            } catch (DateTimeParseException e) {
+                continue;
+            }
+        }
     }
 
     public LocalDate askFutureDate(){
