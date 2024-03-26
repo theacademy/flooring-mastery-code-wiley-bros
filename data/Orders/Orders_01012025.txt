@@ -1,3 +1,2 @@
 OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
-4,Mikolaj,CA,25.00,Wood,9001,5.15,4.75,46355.15,42754.75,22277.4750,111387.3750
-5,Alex,CA,25.00,Tile,24000,3.50,4.15,84000.00,99600.00,45900.0000,229500.0000
+4,Mikolaj,CA,25.00,Tile,9001,3.50,4.15,31503.50,37354.15,17214.4125,86072.0625
