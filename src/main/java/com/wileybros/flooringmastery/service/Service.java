@@ -12,4 +12,6 @@ public interface Service {
     boolean updateOrder(Integer id, Object[] args);
     boolean removeOrder(Integer id);
     boolean exportAllData();
+    Set<String> getStateAbrs();
+    Set<String> getProductTypes();
 }

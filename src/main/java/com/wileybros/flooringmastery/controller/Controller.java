@@ -65,7 +65,7 @@ public class Controller {
 
     private void addOrder() {
         LocalDate futureDate = view.askFutureDate();
-        Object[] args = view.askOrderArgs();
+        Object[] args = view.askOrderArgs(service.getStateAbrs(), service.getProductTypes());
         if (service.addOrder(args, futureDate)) {
             view.displaySuccess("Order added");
         } else {
@@ -75,7 +75,7 @@ public class Controller {
 
     private void editAnOrder() {
         Integer id = view.askOrderID();
-        Object[] args = view.askOrderArgs();
+        Object[] args = view.askOrderArgs(service.getStateAbrs(), service.getProductTypes());
         if (service.updateOrder(id, args)) {
             view.displaySuccess("Order edited");
         } else {
@@ -93,6 +93,10 @@ public class Controller {
     }
 
     private void exportAllData() {
-        view.displayFailure("Not Implemented yet");
+        if (service.exportAllData()) {
+            view.displaySuccess("Data exported");
+        } else {
+            view.displayFailure("Data not exported");
+        }
     }
 }

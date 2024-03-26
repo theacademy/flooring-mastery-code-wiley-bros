@@ -20,6 +20,11 @@ public class DaoImpl implements Dao {
     final private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MMddyyyy");
     private Integer lastMaxID = 0;
 
+    public DaoImpl() {
+        readData();
+    }
+
+    // File Handling --------------------------------------------------
     @Override
     public boolean readData() {
         boolean firstStep = readProductData() && readStateData();
@@ -106,11 +111,11 @@ public class DaoImpl implements Dao {
 
     @Override
     public boolean writeData() {
+        try {
         // This mess deletes all the files in the folder <datasource>/Orders
         Arrays.stream(Objects.requireNonNull(new File(dataSource + "/Orders").listFiles())).map(File::delete);
 
         // Repopulates the folder with data from memory
-        try {
             Map<LocalDate, PrintWriter> outs = new HashMap<>();
             for (Order order : orders.values()) {
                 if (!outs.containsKey(order.getDate())) {
@@ -134,19 +139,22 @@ public class DaoImpl implements Dao {
 
     @Override
     public boolean exportData() {
-        return false;
+        try {
+            PrintWriter out = new PrintWriter(new FileWriter(dataSource + "/Backup/DataExport.txt"));
+            out.println("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total,OrderDate");
+            for (Order order : orders.values()) {
+                out.println(order+","+order.getDate().format(DateTimeFormatter.ofPattern("MM-dd-yyyy")));
+                out.flush();
+            }
+            out.close();
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 
-    @Override
-    public State accessState(String abr) {
-        return states.get(abr.hashCode());
-    }
 
-    @Override
-    public Product accessProduct(String type) {
-        return products.get(type.hashCode());
-    }
-
+    // Order Handling --------------------------------------------------
     @Override
     public Set<Order> getOrdersOnDate(LocalDate date) {
         return orders.values().stream().filter(o -> o.getDate().equals(date)).collect(Collectors.toSet());
@@ -167,7 +175,6 @@ public class DaoImpl implements Dao {
         }
         return true;
     }
-
 
     @Override
     public boolean updateOrder(Order updates) {
@@ -193,4 +200,29 @@ public class DaoImpl implements Dao {
         }
         return true;
     }
+
+
+    // State and Product Handling ----------------------------------------
+    @Override
+    public State accessState(String abr) {
+        return states.get(abr.toUpperCase().hashCode());
+    }
+
+    @Override
+    public Product accessProduct(String type) {
+        type = type.substring(0,1).toUpperCase() + type.substring(1);
+        return products.get(type.hashCode());
+    }
+
+    @Override
+    public Set<String> getStateAbrs() {
+        return states.values().stream().map(State::getAbr).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<String> getProductTypes() {
+        return products.values().stream().map(Product::getType).collect(Collectors.toSet());
+    }
+
+
 }

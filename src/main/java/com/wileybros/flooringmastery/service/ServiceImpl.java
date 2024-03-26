@@ -16,7 +16,6 @@ public class ServiceImpl implements Service{
 
     public ServiceImpl(Dao dao) {
         this.dao = dao;
-        dao.readData();
     }
 
     @Override
@@ -57,6 +56,16 @@ public class ServiceImpl implements Service{
 
     @Override
     public boolean exportAllData() {
-        return false;
+        return dao.exportData();
+    }
+
+    @Override
+    public Set<String> getStateAbrs() {
+        return dao.getStateAbrs();
+    }
+
+    @Override
+    public Set<String> getProductTypes() {
+        return dao.getProductTypes();
     }
 }

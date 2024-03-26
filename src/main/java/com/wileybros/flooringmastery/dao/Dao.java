@@ -10,17 +10,21 @@ import java.util.Set;
 
 public interface Dao {
 
+    // File Handling ---------------------------
     boolean readData();
     boolean writeData();
     boolean exportData();
 
-    State accessState(String abr);
-    Product accessProduct(String type);
-
+    // Order Handling ---------------------------
     Set<Order> getOrdersOnDate(LocalDate date);
     Integer getNextID();
     boolean addOrder(Order order);
     boolean updateOrder(Order order);
     boolean removeOrder(Integer id);
 
+    // State and Product Handling ---------------
+    State accessState(String abr);
+    Product accessProduct(String type);
+    Set<String> getStateAbrs();
+    Set<String> getProductTypes();
 }

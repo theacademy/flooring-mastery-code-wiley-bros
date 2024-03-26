@@ -47,11 +47,10 @@ public class View {
     }
 
     public LocalDate askDate(){
-        return io.readLocalDate("Enter a date (dd/MM/yyyy): ", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        return io.readLocalDate("Enter a date (dd/mm/yyyy): ", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public LocalDate askFutureDate(){
-        // TODO check that askFutureDate works correctly.
         LocalDate date;
         do {
              date = askDate();
@@ -63,11 +62,16 @@ public class View {
         return io.readInt("Enter Order Number: ");
     }
 
-    public Object[] askOrderArgs(){
+    public Object[] askOrderArgs( Set<String> stateAbrs, Set<String> productTypes){
         Object[] objs = new Object[4];
         objs[0] = io.readString("Enter the customer name: ");
-        objs[1] = io.readString("Enter the state abbreviation: ");
+        io.printLn(" - - - - - - - - - - - - - ");
+        io.printLn("States " + stateAbrs);
+        objs[1] = io.readString("Enter a state abbreviation: ");
+        io.printLn(" - - - - - - - - - - - - - ");
+        io.printLn("Products " + productTypes);
         objs[2] = io.readString("Enter the product type: ");
+        io.printLn(" - - - - - - - - - - - - - ");
         objs[3] = io.readBigDecimal("Enter the area: ");
         return objs;
     }
