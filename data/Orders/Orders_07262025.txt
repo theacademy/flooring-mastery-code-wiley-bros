@@ -1,0 +1,5 @@
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+5,TestUpdateOrder,TX,4.45,Laminate,6000,1.75,2.10,10500.00,12600.00,1027.9500,24127.9500
+6,TestUpdateOrder,TX,4.45,Laminate,6000,1.75,2.10,10500.00,12600.00,1027.9500,24127.9500
+1000,TestUpdateOrder,TX,4.45,Laminate,6000,1.75,2.10,10500.00,12600.00,1027.9500,24127.9500
+1002,TestUpdateOrder,TX,4.45,Laminate,6000,1.75,2.10,10500.00,12600.00,1027.9500,24127.9500

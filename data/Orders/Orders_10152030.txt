@@ -1,0 +1,2 @@
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+998,Alex,CA,25.00,Tile,25000,3.50,4.15,87500.00,103750.00,47812.5000,239062.5000
