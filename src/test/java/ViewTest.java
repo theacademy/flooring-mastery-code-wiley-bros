@@ -1,61 +1,67 @@
 import com.wileybros.flooringmastery.ui.UserIO;
-import com.wileybros.flooringmastery.ui.UserIOImpl;
 import com.wileybros.flooringmastery.ui.View;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
-//import static org.mockito.Mockito.*;
+
 
 public class ViewTest {
-    private View view;
+    @Mock
     private UserIO userIO;
+    private View view;
 
     @BeforeEach
     public void setUp() {
-        userIO = new UserIOImpl();
-        view = new View();
-    }
-
-    @Test
-    public void testWelcomeBanner() {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        view.welcomeBanner();
-        String expectedOutput = "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n" +
-                "* <<Flooring Program>>\n";
-        assertEquals(expectedOutput, outContent.toString());
-        System.setOut(System.out);
-    }
-
-    @Test
-    public void testDisplayMenu() {
-        String menu = view.displayMenu();
-        assertTrue(menu.contains("1. Display Orders"));
-        assertTrue(menu.contains("2. Add an Order"));
-        assertTrue(menu.contains("3. Edit an Order"));
-        assertTrue(menu.contains("4. Remove an Order"));
-        assertTrue(menu.contains("5. Export All Data"));
-        assertTrue(menu.contains("6. Quit"));
+        MockitoAnnotations.openMocks(this);
+        view = new View(userIO);
     }
 
     @Test
     public void testAskDate() {
-        LocalDate date = view.askDate();
-        assertEquals(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        LocalDate date = LocalDate.now();
+        when(userIO.readLocalDate(anyString(), any())).thenReturn(date);
+        LocalDate askedDate = view.askDate();
+        assertEquals(date, askedDate);
+        verify(userIO).readLocalDate(anyString(), any());
+    }
+    @Test
+    public void testDisplaySuccess() {
+        String successMessage = "Order placed successfully";
+
+        view.displaySuccess(successMessage);
+
+        verify(userIO).printLn("Action Success " + successMessage);
     }
 
     @Test
+    public void testAskCustomerName() {
+        when(userIO.readString(anyString())).thenReturn("John Doe");
+
+        String customerName = view.askCustomerName();
+
+        verify(userIO).readString(anyString());
+    }
+    @Test
     public void testAskOrderID() {
-//        UserIO userIO = mock(UserIO.class);
-//        int orderId = view.askOrderID();
-//        assertEquals(100, orderId);
+        when(userIO.readInt(anyString())).thenReturn(100);
+        int orderId = view.askOrderID();
+        assertEquals(100, orderId);
+        verify(userIO).readInt(anyString());
+    }
+    @Test
+    public void testAskOrderArea() {
+        when(userIO.readInt(anyString())).thenReturn(200);
+        BigDecimal area = view.askOrderArea();
+        assertEquals(BigDecimal.valueOf(200), area);
+        verify(userIO).readInt(anyString());
     }
 }
