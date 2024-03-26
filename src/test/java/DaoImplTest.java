@@ -33,19 +33,17 @@ public class DaoImplTest {
 
     @Test
     public void testAddOrder(){
-        Order order = new Order(999);
-        order.setCustomerName("David");
-        order.setState(new State("TX", "Texas", new BigDecimal("0.6")));
-        order.setProduct(new Product("Carpet", new BigDecimal(14), new BigDecimal(59)));
-        order.setArea(new BigDecimal(10));
-
+        State state = new State("TX", "Texas", new BigDecimal("0.6"));
+        Product product = new Product("Carpet", new BigDecimal(14), new BigDecimal(59));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate date = LocalDate.parse("10-10-2030", formatter);
-        order.setDate(date);
+
+        Order order = new Order(999, "David", state, product, new BigDecimal(10), date);
+
 
         assertTrue(dao.addOrder(order)); //Add the order
 
-        String expected = "999,David,TX,0.6,Carpet,10,14,59,140,590,4.38,734.38"; // This is the expected result
+        String expected = "999,David,TX,0.6,Carpet,10.00,14.00,59.00,140.00,590.00,4.38,734.38"; // This is the expected result
 
         Set<Order> ordersOnDate = dao.getOrdersOnDate(date);
         assertTrue(ordersOnDate.contains(order)); // Test if the order has benn added
@@ -80,13 +78,11 @@ public class DaoImplTest {
 
     @Test
     public void testGetOrdersOnDate(){
-        Order order = new Order(998);
-        order.setCustomerName("Alex");
-        order.setState(dao.accessState("CA"));
-        order.setProduct(dao.accessProduct("Tile"));
-        order.setArea(new BigDecimal(25000));
+        State state = dao.accessState("CA");
+        Product product = dao.accessProduct("Tile");
         LocalDate date = LocalDate.parse("15-10-2030", DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        order.setDate(date);
+        Order order = new Order(998, "Alex", state, product, new BigDecimal(25000), date);
+
         dao.addOrder(order);
 
         Set<Order> ordersOnDate = dao.getOrdersOnDate(date);
@@ -97,13 +93,11 @@ public class DaoImplTest {
 
     @Test
     public void testUpdateOrder(){
-        Order orderToUpdate = new Order(dao.getNextID());
-        orderToUpdate.setCustomerName("TestUpdateOrder");
-        orderToUpdate.setState(dao.accessState("TX"));
-        orderToUpdate.setProduct(dao.accessProduct("Laminate"));
-        orderToUpdate.setArea(new BigDecimal(5000));
+        State state = dao.accessState("TX");
+        Product product = dao.accessProduct("Laminate");
         LocalDate orderDate = LocalDate.parse("2025-07-26", DateTimeFormatter.ISO_DATE);
-        orderToUpdate.setDate(orderDate);
+
+        Order orderToUpdate = new Order(dao.getNextID(), "TestUpdateOrder", state, product, new BigDecimal(5000), orderDate);
 
         assertTrue(dao.addOrder(orderToUpdate));
 
@@ -123,13 +117,11 @@ public class DaoImplTest {
 
     @Test
     public void testRemoveOrder(){
-        Order order = new Order(dao.getNextID());
-        order.setCustomerName("TestUpdateOrder");
-        order.setState(dao.accessState("TX"));
-        order.setProduct(dao.accessProduct("Laminate"));
-        order.setArea(new BigDecimal(5000));
+        State state = dao.accessState("TX");
+        Product product = dao.accessProduct("Laminate");
         LocalDate orderDate = LocalDate.parse("2030-07-26", DateTimeFormatter.ISO_DATE);
-        order.setDate(orderDate);
+
+        Order order = new Order(dao.getNextID(), "TestUpdateOrder", state, product, new BigDecimal(5000), orderDate);
 
         dao.addOrder(order);
 
