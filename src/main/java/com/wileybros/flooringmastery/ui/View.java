@@ -124,7 +124,7 @@ public class View {
 
     // take out args.
     public void displayOrder(Order order){
-        io.print("%d) %s - %s : %s - %.0fsqf\n", order.getId());
+        io.print("%d) ", order.getId());
         displayOrderArgs(new Object[]{order.getCustomerName(), order.getState().getName(), order.getProduct().getType(), order.getArea()});
         io.printLn("$%.2f + $%.2f (+ $%.2f) = $%.2f\n",order.getMaterialCost(), order.getLabourCost(), order.getTax(), order.getTotal());
     }
