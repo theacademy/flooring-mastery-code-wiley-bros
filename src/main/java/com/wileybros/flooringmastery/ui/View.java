@@ -74,12 +74,11 @@ public class View {
     }
 
     // TODO Check is valid state
-    public String askOrderState(String original, Set<String> stateAbrs ){
+    public String askOrderState(Set<String> stateAbrs ){
         io.printLn(" - - - - - - - - - - - - - ");
         String abr;
         do {
             io.printLn("States " + stateAbrs);
-//            if (original.isBlank()) io.print("(%s)");
             abr = io.readString("Enter a state abbreviation: ");
         } while (abr.isBlank() || !stateAbrs.contains(abr));
         return abr;

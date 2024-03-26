@@ -65,7 +65,12 @@ public class Controller {
 
     private void addOrder() {
         LocalDate futureDate = view.askFutureDate();
-        Object[] args = view.askOrderArgs(service.getStateAbrs(), service.getProductTypes());
+        Object[] args = {
+                view.askCustomerName(),
+                view.askOrderState(service.getStateAbrs()),
+                view.askOrderProduct(service.getProductTypes()),
+                view.askOrderArea()
+        };
         if (service.addOrder(args, futureDate)) {
             view.displaySuccess("Order added");
         } else {
@@ -75,7 +80,12 @@ public class Controller {
 
     private void editAnOrder() {
         Integer id = view.askOrderID();
-        Object[] args = view.askOrderArgs(service.getStateAbrs(), service.getProductTypes());
+        Object[] args = {
+                view.askCustomerName(),
+                view.askOrderState(service.getStateAbrs()),
+                view.askOrderProduct(service.getProductTypes()),
+                view.askOrderArea()
+        };
         if (service.updateOrder(id, args)) {
             view.displaySuccess("Order edited");
         } else {
