@@ -10,11 +10,11 @@ import java.time.LocalDate;
 public class App {
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext();
-        appContext.scan("com.wileybros.flooringmastery");
-        appContext.refresh();
+       AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext();
+       appContext.scan("com.wileybros.flooringmastery");
+       appContext.refresh();
 
-        Controller controller = appContext.getBean("controller", Controller.class);
-        controller.run();
+       Controller controller = appContext.getBean("controller", Controller.class);
+       controller.run();
     }
 }
