@@ -210,6 +210,7 @@ public class DaoImpl implements Dao {
 
     @Override
     public Product accessProduct(String type) {
+        if (type.isBlank()) return null;
         type = type.substring(0,1).toUpperCase() + type.substring(1);
         return products.get(type.hashCode());
     }

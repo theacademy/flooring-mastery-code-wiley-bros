@@ -1,11 +1,10 @@
 package com.wileybros.flooringmastery.dto;
 
-import com.wileybros.flooringmastery.dao.Dao;
-import com.wileybros.flooringmastery.dao.DaoImpl;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
+
+import static java.math.RoundingMode.UP;
 
 public class Order {
     private Integer id;
@@ -114,10 +113,12 @@ public class Order {
         sb.append(customerName).append(",");
         sb.append(state.getAbr()).append(",").append(state.getTaxRate()).append(",");
         sb.append(product.getType()).append(",");
-        sb.append(area).append(",");
-        sb.append(product.getCostPSqF()).append(",").append(product.getLabourPSqF()).append(",");
-        sb.append(getMaterialCost()).append(",").append(getLabourCost()).append(",");
-        sb.append(getTax()).append(",").append(getTotal());
+        sb.append(area.setScale(2, UP)).append(",");
+        sb.append(product.getCostPSqF().setScale(2, UP)).append(",").append(product.getLabourPSqF()
+                .setScale(2, UP)).append(",");
+        sb.append(getMaterialCost().setScale(2, UP)).append(",").append(getLabourCost()
+                .setScale(2, UP)).append(",");
+        sb.append(getTax().setScale(2, UP)).append(",").append(getTotal().setScale(2, UP));
         return sb.toString();
     }
 }
