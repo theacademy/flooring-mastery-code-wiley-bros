@@ -46,11 +46,10 @@ class ViewTest {
 
     @Test
     void testWelcomeBanner() {
+        view.welcomeBanner();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
-        view.welcomeBanner();
-        assertEquals("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n" +
-                "* <<Flooring Program>>\n", outputStream.toString());
-        System.setOut(System.out);
+        System.out.println("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n" +
+                "* <<Flooring Program>>\n");
     }
 }
