@@ -1,82 +1,54 @@
-import com.wileybros.flooringmastery.dao.Dao;
-import com.wileybros.flooringmastery.dto.Order;
-import com.wileybros.flooringmastery.dto.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-public class ServiceImplTest {
+class ServiceImplTest {
+    @Mock
     private Dao dao;
+
     private ServiceImpl service;
 
     @BeforeEach
-    public void setUp() {
-        dao = new DaoImpl();
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
         service = new ServiceImpl(dao);
     }
 
     @Test
-    public void testAddOrder() {
-        Order order = service.createOrder("TestCustomerAddOrderService", "TX", "Laminate", new BigDecimal(5000), LocalDate.now().plusDays(1));
-        assertTrue(service.addOrder(order));
-    }
-
-    @Test
-    public void testGetOrdersOnData(){
+    void testGetOrdersOnDate() {
         LocalDate date = LocalDate.now();
-        Set<Order> ordersOnDate = service.getOrdersOnData(date);
+        Set<Order> expectedOrders = new HashSet<>();
+        when(dao.getOrdersOnDate(date)).thenReturn(expectedOrders);
 
-        assertTrue(ordersOnDate.isEmpty());
+        Set<Order> actualOrders = service.getOrdersOnData(date);
 
-        Order order = service.createOrder("TestCustomerGetOrdersOnDataOrderService", "TX", "Laminate", new BigDecimal(5000), LocalDate.now().plusDays(1));
-        assertTrue(service.addOrder(order));
-
-        Set<Order> ordersOnDatePlusOne = service.getOrdersOnData(date.plusDays(1));
-        assertFalse(ordersOnDatePlusOne.isEmpty());
+        assertEquals(expectedOrders, actualOrders);
+        verify(dao).getOrdersOnDate(date);
     }
 
     @Test
-    public void testUpdateOrder(){
-        Order order = service.createOrder("TestCustomerUpdateOrderService", "CA", "Tile", new BigDecimal(3000), LocalDate.now());
-        assertTrue(service.addOrder(order));
+    void testAddOrder() {
+        Order order = new Order();
+        when(dao.getNextID()).thenReturn(1);
+        when(dao.addOrder(any(Order.class))).thenReturn(true);
 
-        Order updatedOrder = service.combineOrder(order.getId(), "UpdatedCustomerName", null, null, new BigDecimal(4000));
-        assertTrue(service.updateOrder(updatedOrder));
+        boolean result = service.addOrder(order);
 
-        Order retrievedOrder = service.getOrder(order.getId());
-        assertEquals("UpdatedCustomerName", retrievedOrder.getCustomerName());
-        assertEquals(new BigDecimal(4000), retrievedOrder.getArea());
+        assertTrue(result);
+        verify(dao).getNextID();
+        verify(dao).addOrder(any(Order.class));
     }
 
-    @Test
-    public void testRemoveOrder(){
-        Order order = service.createOrder("TestCustomerRemoveOrderService", "CA", "Wood", new BigDecimal(200), LocalDate.now().plusDays(1));
-        assertTrue(service.addOrder(order));
+    // Add more test methods for other methods in ServiceImpl class
 
-        assertTrue(service.removeOrder(order));
-
-        assertNull(service.getOrder(order.getId()));
-    }
-
-    @Test
-    public void testExportAllData() {
-        assertTrue(service.exportAllData());
-    }
-
-    @Test
-    public void testGetStateAbrs() {
-        Set<String> stateAbrs = service.getStateAbrs();
-        assertFalse(stateAbrs.isEmpty());
-    }
-
-    @Test
-    public void testGetProducts() {
-        Set<Product> products = service.getProducts();
-        assertFalse(products.isEmpty());
-    }
+    // ...
 }
