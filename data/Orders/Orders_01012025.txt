@@ -1,3 +1,2 @@
 OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
 4,Mikolaj,CA,25.00,Tile,9001.00,3.50,4.15,31503.50,37354.15,17214.42,86072.07
-10,Able; Inc,TX,4.45,Laminate,100000.00,1.75,2.10,175000.00,210000.00,17132.50,402132.50

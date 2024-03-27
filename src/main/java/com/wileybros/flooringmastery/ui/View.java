@@ -16,7 +16,10 @@ import java.util.stream.Collectors;
 public class View {
 
     private UserIO io = new UserIOImpl();
-
+    //Added constructor for testing
+    public View(UserIO io){
+        this.io = io;
+    }
     public String displayMenu() {
         io.printLn("* 1. Display Orders");
         io.printLn("* 2. Add an Order");
