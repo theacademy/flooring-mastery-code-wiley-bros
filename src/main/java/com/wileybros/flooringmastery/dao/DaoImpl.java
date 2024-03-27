@@ -11,6 +11,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The implementation of the Dao interface that provides data access and manipulation operations for the flooring application.
+ * This class handles reading and writing data from/to files, as well as managing orders, states, and products.
+ */
 @Component
 public class DaoImpl implements Dao {
     private Map<Integer, State> states;
@@ -25,6 +29,12 @@ public class DaoImpl implements Dao {
     }
 
     // File Handling --------------------------------------------------
+
+    /**
+     * Reads the data from the files.
+     *
+     * @return true if the data was successfully read, false otherwise.
+     */
     @Override
     public boolean readData() {
         boolean firstStep = readProductData() && readStateData();
@@ -32,8 +42,13 @@ public class DaoImpl implements Dao {
         return false;
     }
 
+    /**
+     * Reads the order data from the files.
+     *
+     * @return true if the order data was successfully read, false otherwise.
+     */
     private boolean readOrderData() {
-        try {                   // Tries to get Orders
+        try {
             File directory = new File(dataSource + "/Orders");
 
             Scanner scanner;
@@ -70,8 +85,13 @@ public class DaoImpl implements Dao {
         return true;
     }
 
+    /**
+     * Reads the state data from the file.
+     *
+     * @return true if the state data was successfully read, false otherwise.
+     */
     private boolean readStateData() {
-        try {                   // Tries to get States
+        try {
             Scanner scanner;
             scanner = new Scanner(
                     new BufferedReader(
@@ -90,8 +110,13 @@ public class DaoImpl implements Dao {
         return true;
     }
 
+    /**
+     * Reads the product data from the file.
+     *
+     * @return true if the product data was successfully read, false otherwise.
+     */
     private boolean readProductData() {
-        try {               // Tries to get Products
+        try {
             Scanner scanner;
             scanner = new Scanner(
                     new BufferedReader(
@@ -110,6 +135,11 @@ public class DaoImpl implements Dao {
         return true;
     }
 
+    /**
+     * Writes the data to files.
+     *
+     * @return true if the data was successfully written, false otherwise.
+     */
     @Override
     public boolean writeData() {
         try {
@@ -142,6 +172,11 @@ public class DaoImpl implements Dao {
         return true;
     }
 
+    /**
+     * Exports the data to a file in the backup folder.
+     *
+     * @return true if the data was successfully exported, false otherwise.
+     */
     @Override
     public boolean exportData() {
         try {
@@ -160,20 +195,44 @@ public class DaoImpl implements Dao {
 
     // Order Handling --------------------------------------------------
 
+    /**
+     * Retrieves an order by its ID.
+     *
+     * @param id the ID of the order to retrieve.
+     * @return the order with the specified ID, or null if not found.
+     */
     @Override
     public Order getOrder(Integer id) {
         return orders.get(id.hashCode());
     }
+
+    /**
+     * Retrieves all orders on a specific date.
+     *
+     * @param date the date to filter the orders.
+     * @return a set of orders placed on the specified date.
+     */
     @Override
     public Set<Order> getOrdersOnDate(LocalDate date) {
         return orders.values().stream().filter(o -> o.getDate().equals(date)).collect(Collectors.toSet());
     }
 
+    /**
+     * Retrieves the next available ID for a new order.
+     *
+     * @return the next available ID.
+     */
     @Override
     public Integer getNextID() {
         return ++lastMaxID;
     }
 
+    /**
+     * Adds a new order.
+     *
+     * @param order the order to add.
+     * @return true if the order was successfully added, false otherwise.
+     */
     @Override
     public boolean addOrder(Order order) {
         try {
@@ -185,6 +244,12 @@ public class DaoImpl implements Dao {
         return true;
     }
 
+    /**
+     * Removes an order by its ID.
+     *
+     * @param id the ID of the order to remove.
+     * @return true if the order was successfully removed, false otherwise.
+     */
     @Override
     public boolean removeOrder(Integer id) {
         try {
@@ -196,24 +261,46 @@ public class DaoImpl implements Dao {
         return true;
     }
 
-
     // State and Product Handling ----------------------------------------
+
+    /**
+     * Retrieves a state by its abbreviation.
+     *
+     * @param abr the abbreviation of the state.
+     * @return the state with the specified abbreviation, or null if not found.
+     */
     @Override
     public State accessState(String abr) {
         return states.get(abr.hashCode());
     }
 
+    /**
+     * Retrieves a product by its type.
+     *
+     * @param type the type of the product.
+     * @return the product with the specified type, or null if not found.
+     */
     @Override
     public Product accessProduct(String type) {
         if (type.isBlank()) return null;
         return products.get(type.hashCode());
     }
 
+    /**
+     * Retrieves all state abbreviations.
+     *
+     * @return a set of all state abbreviations.
+     */
     @Override
     public Set<String> getStateAbrs() {
         return states.values().stream().map(State::getAbr).collect(Collectors.toSet());
     }
 
+    /**
+     * Retrieves all products.
+     *
+     * @return a set of all products.
+     */
     @Override
     public Set<Product> getProducts() {
         return new HashSet<>(products.values());
