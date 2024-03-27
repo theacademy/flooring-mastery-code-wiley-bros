@@ -9,6 +9,12 @@ import java.time.LocalDate;
 
 public class App {
 
+    /**
+     * The main method of the Flooring Mastery application.
+     * This method initializes the application context, retrieves the controller bean, and runs the application.
+     *
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext();
         appContext.scan("com.wileybros.flooringmastery");
