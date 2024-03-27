@@ -1,0 +1,4 @@
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total,OrderDate
+1,John Doe,WA,9.25,Carpet,100.00,2.25,2.10,225.00,210.00,40.24,475.24,03-27-2024
+2,Jane Smith,CA,25.00,Tile,200.00,3.50,4.15,700.00,830.00,382.50,1912.50,03-27-2024
+3,Albert Einstein,KY,6.00,Carpet,217.00,2.25,2.10,488.25,455.70,56.64,1000.59,06-02-2013

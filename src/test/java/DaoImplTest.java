@@ -22,24 +22,25 @@ public class DaoImplTest {
         dao = new DaoImpl("data-test");
     }
 
+
     @Test
     public void testReadData() {
         assertTrue(dao.readData());
     }
 
     @Test
+    public void testExportData() {
+        dao.readData();
+        assertTrue(dao.exportData());
+    }
+    @Test
     public void testWriteData() {
         assertTrue(dao.writeData());
     }
 
     @Test
-    public void testExportData() {
-        assertTrue(dao.exportData());
-    }
-
-    @Test
     public void testGetOrder() {
-        Order order = new Order(1, "John Doe", new State("OH", "Ohio", new BigDecimal("6.25")),
+        Order order = new Order(1, "John Doe", new State("WA", "Washington", new BigDecimal("9.25")),
                 new Product("Carpet", new BigDecimal("2.25"), new BigDecimal("2.10")),
                 new BigDecimal("100"), LocalDate.now());
         dao.addOrder(order);
@@ -75,7 +76,7 @@ public class DaoImplTest {
 
     @Test
     public void testAddOrder() {
-        Order order = new Order(1, "John Doe", new State("OH", "Ohio", new BigDecimal("6.25")),
+        Order order = new Order(1, "John Doe", new State("WA", "Washington", new BigDecimal("9.25")),
                 new Product("Carpet", new BigDecimal("2.25"), new BigDecimal("2.10")),
                 new BigDecimal("100"), LocalDate.now());
 
@@ -86,7 +87,7 @@ public class DaoImplTest {
 
     @Test
     public void testRemoveOrder() {
-        Order order = new Order(1, "John Doe", new State("OH", "Ohio", new BigDecimal("6.25")),
+        Order order = new Order(1, "John Doe", new State("WA", "Washington", new BigDecimal("9.25")),
                 new Product("Carpet", new BigDecimal("2.25"), new BigDecimal("2.10")),
                 new BigDecimal("100"), LocalDate.now());
         dao.addOrder(order);
