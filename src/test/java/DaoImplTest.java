@@ -19,7 +19,7 @@ public class DaoImplTest {
 
     @BeforeEach
     public void setUp() {
-        dao = new DaoImpl();
+        dao = new DaoImpl("data-test");
     }
 
     @Test
