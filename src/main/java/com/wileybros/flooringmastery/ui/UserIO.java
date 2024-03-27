@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 public interface UserIO {
 
-        /**
+    /**
      * Prints a formatted string to the console.
      *
      * @param string the string to be printed
@@ -47,7 +47,7 @@ public interface UserIO {
     BigDecimal readBigDecimal(String prompt);
 
     /**
-     * Reads a LocalDate input from the user.
+     * Reads a LocalDate input from the user using a given format.
      *
      * @param prompt the prompt to be displayed to the user
      * @param format the DateTimeFormatter to be used for parsing the input

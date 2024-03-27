@@ -34,6 +34,8 @@ public class DaoImpl implements Dao {
 
     /**
      * Constructs a new DaoImpl object and reads the data from the files from custom folder.
+     *
+     * @param dataSource the override for a custom data folder
      */
     public DaoImpl(String dataSource) {
         this.dataSource = dataSource;

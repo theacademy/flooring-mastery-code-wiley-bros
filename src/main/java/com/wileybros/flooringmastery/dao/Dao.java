@@ -59,7 +59,7 @@ public interface Dao {
     Integer getNextID();
     
     /**
-     * Adds a new order.
+     * Adds a new order or updates an existing order.
      *
      * @param order the order to add.
      * @return true if the order was successfully added, false otherwise.

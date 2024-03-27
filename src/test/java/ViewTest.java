@@ -1,9 +1,10 @@
+import com.wileybros.flooringmastery.ui.UserIO;
+import com.wileybros.flooringmastery.ui.View;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.math.BigDecimal;
@@ -52,7 +53,4 @@ class ViewTest {
                 "* <<Flooring Program>>\n", outputStream.toString());
         System.setOut(System.out);
     }
-
-    // Add more test methods for other public methods in the View class
-
 }
