@@ -51,6 +51,7 @@ public class ServiceImpl implements Service{
     @Override
     public Order combineOrder(Integer id, String customerName, String abr, String type, BigDecimal area) {
         Order original = getOrder(id);
+        if (original == null) return null;
         return new Order(
                 id,
                 customerName == null ? original.getCustomerName() : customerName,
