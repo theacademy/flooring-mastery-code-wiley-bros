@@ -16,10 +16,21 @@ import java.util.stream.Collectors;
 public class View {
 
     private UserIO io = new UserIOImpl();
-    //Added constructor for testing
+    
+    /**
+     * Constructs a View object with the specified UserIO.
+     *
+     * @param io the user io object used for interacting with the user
+     */
     public View(UserIO io){
         this.io = io;
     }
+    
+    /**
+     * Displays the menu options and prompts the user to select a choice.
+     * 
+     * @return the user's choice as a string
+     */
     public String displayMenu() {
         io.printLn("* 1. Display Orders");
         io.printLn("* 2. Add an Order");
@@ -34,30 +45,56 @@ public class View {
     }
 
     // STATIC DISPLAY METHODS -----------------------------------------------------------------------------------
+    
+    /**
+     * Displays the welcome banner for the flooring program.
+     */
     public void welcomeBanner(){
         io.printLn("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
         io.printLn("* <<Flooring Program>>");
     }
 
+    /**
+     * Displays a success message.
+     * 
+     * @param string the success message to display
+     */
     public void displaySuccess(String string){
         io.printLn("Operation Success : "+string);
     }
 
+    /**
+     * Displays a failure message.
+     * 
+     * @param string the failure message to display
+     */
     public void displayFailure(String string){
         io.printLn("Operation Failure : "+string);
     }
 
+    /**
+     * Displays an error message.
+     * 
+     * @param string the error message to display
+     */
     public void displayError(String string){
         io.printLn("Error : "+string);
     }
 
+    /**
+     * Displays a goodbye message.
+     */
     public void displayExit(){
         io.printLn("Goodbye!");
     }
 
-
-
     // ASK METHODS -----------------------------------------------------------------------------------
+    
+    /**
+     * Asks the user to enter a date and returns it as a LocalDate object.
+     * 
+     * @return the user-entered date as a LocalDate object
+     */
     public LocalDate askDate(){
         while (true) {
             try {
@@ -68,6 +105,11 @@ public class View {
         }
     }
 
+    /**
+     * Asks the user to enter a future date and returns it as a LocalDate object.
+     * 
+     * @return the user-entered future date as a LocalDate object
+     */
     public LocalDate askFutureDate(){
         LocalDate date;
         do {
@@ -76,10 +118,20 @@ public class View {
         return date;
     }
 
+    /**
+     * Asks the user to enter an order ID and returns it as an Integer.
+     * 
+     * @return the user-entered order ID as an Integer
+     */
     public Integer askOrderID(){
         return io.readInt("Enter Order Number: ");
     }
 
+    /**
+     * Asks the user to enter a customer name and returns it as a String.
+     * 
+     * @return the user-entered customer name as a String
+     */
     public String askCustomerName(){
         String name;
         do {
@@ -89,6 +141,12 @@ public class View {
         return name.replaceAll(",",";");
     }
 
+    /**
+     * Asks the user to enter an order state abbreviation and returns it as a String.
+     * 
+     * @param stateAbrs a set of valid state abbreviations
+     * @return the user-entered state abbreviation as a String
+     */
     public String askOrderState(Set<String> stateAbrs ){
         String abr;
         io.printLn(" - - - - - - - - - - - - - ");
@@ -100,6 +158,12 @@ public class View {
         return abr;
     }
 
+    /**
+     * Asks the user to enter an order product type and returns it as a String.
+     * 
+     * @param products a set of valid products
+     * @return the user-entered product type as a String
+     */
     public String askOrderProduct( Set<Product> products ){
         String type;
         io.printLn(" - - - - - - - - - - - - - ");
@@ -119,6 +183,11 @@ public class View {
         }
     }
 
+    /**
+     * Asks the user to enter an order area and returns it as a BigDecimal.
+     * 
+     * @return the user-entered order area as a BigDecimal
+     */
     public BigDecimal askOrderArea( ){
         Integer area;
         do {
@@ -130,6 +199,12 @@ public class View {
 
     // CONFIRMATION METHODS -------------------------------------------------------------------------------------
 
+    /**
+     * Asks the user for confirmation to place an order.
+     * 
+     * @param order the order to be placed
+     * @return true if the user confirms, false otherwise
+     */
     public boolean placeOrderConfirmation(Order order){
         if (order == null) return true; // This will skip showing if some parameters where null, it will then
         // fail.
@@ -138,6 +213,12 @@ public class View {
         return io.readString("Do you want to place this order? (Y/N)\n").equalsIgnoreCase("Y");
     }
 
+    /**
+     * Asks the user for confirmation to update an order.
+     * 
+     * @param order the order to be updated
+     * @return true if the user confirms, false otherwise
+     */
     public boolean updateOrderConfirmation(Order order) {
         if (order == null) return true; // This will skip showing if there is no matching order, it will then fail.
         io.printLn("---Update Summary---");
@@ -145,6 +226,12 @@ public class View {
         return io.readString("Do you want to update this order? (Y/N)\n").equalsIgnoreCase("Y");
     }
 
+    /**
+     * Asks the user for confirmation to remove an order.
+     * 
+     * @param order the order to be removed
+     * @return true if the user confirms, false otherwise
+     */
     public boolean removeOrderConfirmation(Order order) {
         if (order == null) return true; // This will skip showing if there is no matching order, it will then fail.
         io.printLn("---Removal Summary---");
@@ -154,6 +241,11 @@ public class View {
 
     // DYNAMIC DISPLAYS METHODS -----------------------------------------------------------------------------------
 
+    /**
+     * Displays the details of an order.
+     * 
+     * @param order the order to be displayed
+     */
     public void displayOrder(Order order){
         io.printLn("%s) %s - %s : %s - %.0fsqf\n $%.2f + $%.2f (+ $%.2f) = $%.2f\n",
                 order.getId() == null ? "??" : order.getId().toString(), order.getCustomerName().replaceAll(";", ","),
@@ -161,6 +253,11 @@ public class View {
                 order.getLabourCost(), order.getTax(), order.getTotal());
     }
 
+    /**
+     * Displays the details of multiple orders.
+     * 
+     * @param orders a set of orders to be displayed
+     */
     public void displayOrders(Set<Order> orders){
         for (Order order : orders){
             displayOrder(order);
