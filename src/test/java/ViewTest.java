@@ -41,9 +41,7 @@ class ViewTest {
     @Test
     void testWelcomeBanner() {
         view.welcomeBanner();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
-        System.out.println("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n" +
-                "* <<Flooring Program>>\n");
+        verify(io, times(1)).printLn("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+        verify(io, times(1)).printLn("* <<Flooring Program>>");
     }
 }
