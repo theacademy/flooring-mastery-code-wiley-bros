@@ -4,17 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.math.BigDecimal;
-import java.net.Socket;
-import java.sql.SQLOutput;
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -50,12 +41,34 @@ class ViewTest {
     @Test
     void testWelcomeBanner() {
         view.welcomeBanner();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
-        System.out.println("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n" +
-                "* <<Flooring Program>>\n");
+        verify(io, times(1))
+                .printLn("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+        verify(io, times(1)).printLn("* <<Flooring Program>>");
+    }
+    @Test
+    void testDisplaySuccess() {
+        String message = "Test Display";
+        view.displaySuccess(message);
+        verify(io, times(1)).printLn("Operation Success : " + message);
+}
+
+    @Test
+    void testDisplayFailure() {
+        String message = "Test Display";
+        view.displayFailure(message);
+        verify(io, times(1)).printLn("Operation Failure : " + message);
     }
 
-    // Add more test methods for other public methods in the View class
+    @Test
+    void testDisplayError() {
+        String message = "Test Display";
+        view.displayError(message);
+        verify(io, times(1)).printLn("Error : " + message);
+    }
 
+    @Test
+    void testDisplayExit() {
+        view.displayExit();
+        verify(io, times(1)).printLn("Goodbye!");
+    }
 }
