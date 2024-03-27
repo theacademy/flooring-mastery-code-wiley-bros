@@ -20,18 +20,33 @@ public class DaoImpl implements Dao {
     private Map<Integer, State> states;
     private Map<Integer, Product> products;
     private Map<Integer, Order> orders;
-    final private String dataSource = "data";
+    final private String dataSource;
     final private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MMddyyyy");
     private Integer lastMaxID = 0;
 
+    /**
+     * Constructs a new DaoImpl object and reads the data from the files using default.
+     */
     public DaoImpl() {
+        dataSource = "data";
+        readData();
+    }
+
+    /**
+     * Constructs a new DaoImpl object and reads the data from the files from custom folder.
+     *
+     * @param dataSource the override for a custom data folder
+     */
+    public DaoImpl(String dataSource) {
+        this.dataSource = dataSource;
         readData();
     }
 
     // File Handling --------------------------------------------------
 
     /**
-     * Reads the data from the files.
+     * Reads the data from the files using the readOrderData, readProductData
+     * and readStateData methods.
      *
      * @return true if the data was successfully read, false otherwise.
      */
@@ -228,7 +243,7 @@ public class DaoImpl implements Dao {
     }
 
     /**
-     * Adds a new order.
+     * Adds a new order or updates an existing order.
      *
      * @param order the order to add.
      * @return true if the order was successfully added, false otherwise.

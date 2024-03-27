@@ -13,11 +13,20 @@ public class Controller {
     private final View view;
     private final Service service;
 
+    /**
+     * Constructs a new Controller object.
+     *
+     * @param view    the View object for user interface
+     * @param service the Service object for business logic
+     */
     public Controller(View view, Service service) {
         this.view = view;
         this.service = service;
     }
 
+    /**
+     * Runs the main program loop.
+     */
     public void run() {
         boolean running = true;
         String menuSelection;
@@ -53,17 +62,28 @@ public class Controller {
         view.displayExit();
     }
 
+    /**
+     * Displays the menu and returns the user's selection.
+     *
+     * @return the user's menu selection
+     */
     private String getMenuSelection() {
         view.welcomeBanner();
         return view.displayMenu();
     }
 
+    /**
+     * Displays orders for a specific date.
+     */
     private void displayDateSpecificOrders() {
         LocalDate date = view.askDate();
         Set<Order> orders = service.getOrdersOnData(date);
         view.displayOrders(orders);
     }
 
+    /**
+     * Adds a new order.
+     */
     private void addAnOrder() {
         Order order = service.createOrder(
                 view.askCustomerName(),
@@ -81,6 +101,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Edits an existing order.
+     */
     private void editAnOrder() {
         Order order = service.combineOrder(
                 view.askOrderID(),
@@ -98,6 +121,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Removes an existing order.
+     */
     private void removeAnOrder() {
         Order order = service.getOrder(view.askOrderID());
         if (view.removeOrderConfirmation(order)) {
@@ -108,6 +134,10 @@ public class Controller {
             }
         }
     }
+
+    /**
+     * Exports all data.
+     */
     private void exportAllData() {
         if (service.exportAllData()) {
             view.displaySuccess("Data exported");

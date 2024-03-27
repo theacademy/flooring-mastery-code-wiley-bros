@@ -38,20 +38,17 @@ class ServiceImplTest {
         verify(dao).getOrdersOnDate(date);
     }
 
-//    @Test
-//    void testAddOrder() {
-//        Order order = new Order();
-//        when(dao.getNextID()).thenReturn(1);
-//        when(dao.addOrder(any(Order.class))).thenReturn(true);
-//
-//        boolean result = service.addOrder(order);
-//
-//        assertTrue(result);
-//        verify(dao).getNextID();
-//        verify(dao).addOrder(any(Order.class));
-//    }
+    @Test
+    void testAddOrder() {
+        Order order = new Order(99999);
+        when(dao.getNextID()).thenReturn(1);
+        when(dao.addOrder(any(Order.class))).thenReturn(true);
 
-    // Add more test methods for other methods in ServiceImpl class
+        boolean result = service.addOrder(order);
 
-    // ...
+        assertTrue(result);
+        verify(dao).getNextID();
+        verify(dao).addOrder(any(Order.class));
+    }
+    
 }
