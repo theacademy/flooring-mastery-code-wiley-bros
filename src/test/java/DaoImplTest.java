@@ -51,10 +51,10 @@ public class DaoImplTest {
     @Test
     public void testGetOrdersOnDate() {
         LocalDate date = LocalDate.now();
-        Order order1 = new Order(1, "John Doe", new State("OH", "Ohio", new BigDecimal("6.25")),
+        Order order1 = new Order(1, "John Doe", new State("TX", "Texas", new BigDecimal("4.45")),
                 new Product("Carpet", new BigDecimal("2.25"), new BigDecimal("2.10")),
                 new BigDecimal("100"), date);
-        Order order2 = new Order(2, "Jane Smith", new State("PA", "Pennsylvania", new BigDecimal("6.75")),
+        Order order2 = new Order(2, "Jane Smith", new State("CA", "California", new BigDecimal("25.00")),
                 new Product("Tile", new BigDecimal("3.50"), new BigDecimal("4.15")),
                 new BigDecimal("200"), date);
         dao.addOrder(order1);
@@ -67,7 +67,6 @@ public class DaoImplTest {
 
         assertEquals(expectedOrders, orders);
     }
-
     @Test
     public void testGetNextID() {
         Integer nextID = dao.getNextID();
@@ -98,8 +97,8 @@ public class DaoImplTest {
 
     @Test
     public void testAccessState() {
-        State state = new State("OH", "Ohio", new BigDecimal("6.25"));
-        State retrievedState = dao.accessState("OH");
+        State state = new State("TX", "Texas", new BigDecimal("4.45"));
+        State retrievedState = dao.accessState("TX");
         assertEquals(state, retrievedState);
     }
 
