@@ -1,13 +1,15 @@
-import org.junit.jupiter.api.Test;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
-
 class ControllerTest {
+    private IO io;
+    private Service service;
+    private View view;
+
+    @BeforeEach
+    void setUp() {
+        io = mock(IO.class);
+        service = mock(Service.class);
+        view = new View(io, service);
+    }
+
     @Test
     void testRun_DisplayDateSpecificOrders() {
         // Arrange
