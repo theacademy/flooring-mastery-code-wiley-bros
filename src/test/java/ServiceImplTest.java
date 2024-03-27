@@ -1,3 +1,6 @@
+import com.wileybros.flooringmastery.dao.Dao;
+import com.wileybros.flooringmastery.dto.Order;
+import com.wileybros.flooringmastery.service.ServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -37,7 +40,7 @@ class ServiceImplTest {
 
     @Test
     void testAddOrder() {
-        Order order = new Order();
+        Order order = new Order(99999);
         when(dao.getNextID()).thenReturn(1);
         when(dao.addOrder(any(Order.class))).thenReturn(true);
 
@@ -47,8 +50,5 @@ class ServiceImplTest {
         verify(dao).getNextID();
         verify(dao).addOrder(any(Order.class));
     }
-
-    // Add more test methods for other methods in ServiceImpl class
-
-    // ...
+    
 }
