@@ -1,0 +1,3 @@
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+1,John Doe,TX,4.45,Carpet,100.00,2.25,2.10,225.00,210.00,19.36,454.36
+2,Jane Smith,CA,25.00,Tile,200.00,3.50,4.15,700.00,830.00,382.50,1912.50
